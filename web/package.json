@@ -1,6 +1,7 @@
 {
   "name": "web",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -9,11 +10,23 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check --plugin-search-dir=. .",
-    "format": "prettier --write --plugin-search-dir=. ."
+    "format": "prettier --write --plugin-search-dir=. .",
+    "prisma:generate": "prisma generate",
+    "prisma:commit": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy"
+  },
+  "dependencies": {
+    "@fontsource/fira-mono": "^4.5.0",
+    "@prisma/client": "^4.2.0",
+    "base64-js": "^1.5.1",
+    "cbor": "^8.1.0",
+    "cookie": "^0.4.1",
+    "nanoid": "^4.0.0"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
+    "@tailwindcss/forms": "^0.5.2",
     "@types/cookie": "^0.5.1",
     "@types/node": "^18.6.5",
     "autoprefixer": "^10.4.8",
@@ -28,10 +41,5 @@
     "tslib": "^2.3.1",
     "typescript": "^4.7.4",
     "vite": "^3.0.0"
-  },
-  "type": "module",
-  "dependencies": {
-    "@fontsource/fira-mono": "^4.5.0",
-    "cookie": "^0.4.1"
   }
 }

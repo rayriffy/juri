@@ -5,9 +5,9 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: 'SF Pro Display,system-ui,-apple-system,BlinkMacSystemFont,Helvetica Neue,Helvetica,Arial,sans-serif',
-        mono: 'SF Mono,SFMono-Regular,ui-monospace,Menlo,monospace'
-      }
+        mono: 'SF Mono,SFMono-Regular,ui-monospace,Menlo,monospace',
+      },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 }
