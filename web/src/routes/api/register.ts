@@ -3,10 +3,10 @@ import crypto from 'crypto'
 import { nanoid } from 'nanoid'
 import { PrismaClient } from '@prisma/client'
 
-import { decodeRegisterAuthData } from '../../core/services/decodeRegisterAuthData'
+import { decodeRegisterAuthData } from '../../modules/register/services/decodeRegisterAuthData'
 import { encodeBase64 } from '../../modules/authentication/services/encodeBase64'
-import { decodeBase64 } from '../../modules/authentication/services/decodeBase64'
-import { COSEECDHAtoPKCS } from '../../core/services/COSEECDHAtoPKCS'
+import { decodeBase64 } from '../../core/services/decodeBase64'
+import { COSEECDHAtoPKCS } from '../../modules/register/services/COSEECDHAtoPKCS'
 
 import type { RequestHandler } from '@sveltejs/kit'
 import type { RegisterRequest } from '../../core/@types/api/RegisterRequest'

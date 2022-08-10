@@ -1,12 +1,12 @@
 import crypto from 'crypto'
 import { PrismaClient } from '@prisma/client'
 
-import { decodeBase64 } from '../../modules/authentication/services/decodeBase64'
+import { decodeBase64 } from '../../core/services/decodeBase64'
 import { encodeBase64 } from '../../modules/authentication/services/encodeBase64'
-import { decodeLoginAuthData } from '../../core/services/decodeLoginAuthData'
-import { getSha256Hash } from '../../core/services/getSha256Hash'
-import { verifySignature } from '../../core/services/verifySignature'
-import { ASN1toPEM } from '../../core/services/ASN1toPEM'
+import { decodeLoginAuthData } from '../../modules/login/services/decodeLoginAuthData'
+import { getSha256Hash } from '../../modules/login/services/getSha256Hash'
+import { verifySignature } from '../../modules/login/services/verifySignature'
+import { ASN1toPEM } from '../../modules/login/services/ASN1toPEM'
 
 import type { RequestHandler } from '@sveltejs/kit'
 import type { LoginResponse } from '../../core/@types/api/LoginResponse'

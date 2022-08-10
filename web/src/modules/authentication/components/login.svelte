@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { decodeBase64 } from '../services/decodeBase64'
-  import { encodeBase64 } from '../services/encodeBase64'
+  import { decodeBase64 } from '../../../core/services/decodeBase64'
+  import { encodeBase64 } from '../../../core/services/encodeBase64'
   import { simplifiedFetch } from '../../../core/services/simplifiedFetch'
 
   import type { LoginResponse } from '../../../core/@types/api/LoginResponse'

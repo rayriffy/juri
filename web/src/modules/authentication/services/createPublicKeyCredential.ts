@@ -1,6 +1,6 @@
 import { simplifiedFetch } from '../../../core/services/simplifiedFetch'
 
-import { decodeBase64 } from './decodeBase64'
+import { decodeBase64 } from '../../../core/services/decodeBase64'
 
 export const createPublicKeyCredential = async (username: string) => {
   // get random generated challenge

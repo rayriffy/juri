@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createPublicKeyCredential } from '../services/createPublicKeyCredential'
   import { simplifiedFetch } from '../../../core/services/simplifiedFetch'
-  import { encodeBase64 } from '../services/encodeBase64'
+  import { encodeBase64 } from '../../../core/services/encodeBase64'
 
   import type { RegisterRequest } from '../../../core/@types/api/RegisterRequest'
 
