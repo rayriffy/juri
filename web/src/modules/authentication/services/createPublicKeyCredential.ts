@@ -1,5 +1,6 @@
-import { bufferDecode } from './bufferDecode'
 import { simplifiedFetch } from '../../../core/services/simplifiedFetch'
+
+import { decodeBase64 } from './decodeBase64'
 
 export const createPublicKeyCredential = async (username: string) => {
   // get random generated challenge
@@ -7,7 +8,7 @@ export const createPublicKeyCredential = async (username: string) => {
     username,
   })
   const preCredential = await simplifiedFetch(
-    `/api/makeCredential?${urlParams}`,
+    `/api/register?${urlParams}`,
     {
       method: 'GET',
       headers: {
@@ -21,7 +22,7 @@ export const createPublicKeyCredential = async (username: string) => {
   // build option
   const publicKeyCredentialCreationOptions: PublicKeyCredentialCreationOptions =
     {
-      challenge: bufferDecode(preCredential.data.challenge),
+      challenge: decodeBase64(preCredential.data.challenge),
       rp: {
         name: 'RAYRIFFY',
         id: 'localhost',
@@ -31,7 +32,7 @@ export const createPublicKeyCredential = async (username: string) => {
       //   id: 'rayriffy.com',
       // },
       user: {
-        id: bufferDecode(preCredential.data.uid),
+        id: decodeBase64(preCredential.data.uid),
         name: username.toLowerCase(),
         displayName: username.toLowerCase(),
       },
@@ -48,6 +49,7 @@ export const createPublicKeyCredential = async (username: string) => {
       authenticatorSelection: {
         userVerification: 'preferred',
         requireResidentKey: false,
+        authenticatorAttachment: 'cross-platform'
       },
       attestation: 'direct',
     }

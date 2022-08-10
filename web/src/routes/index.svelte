@@ -7,8 +7,8 @@
 </script>
 
 <svelte:head>
-  <title>Home</title>
-  <meta name="description" content="Svelte demo app" />
+  <title>みのり</title>
+  <meta name="description" content="WebAuthn full-stack demo application" />
 </svelte:head>
 
 <section>

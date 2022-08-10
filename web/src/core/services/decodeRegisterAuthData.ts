@@ -1,4 +1,4 @@
-export const decodeAuthData = (buffer: Buffer) => {
+export const decodeRegisterAuthData = (buffer: Buffer) => {
   let rpIdHash = buffer.slice(0, 32)
   buffer = buffer.slice(32)
   let flagsBuf = buffer.slice(0, 1)

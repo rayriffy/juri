@@ -1,4 +1,4 @@
-export interface WebauthnResponsePayload {
+export interface RegisterRequest {
   id: string
   rawId: string
   type: string

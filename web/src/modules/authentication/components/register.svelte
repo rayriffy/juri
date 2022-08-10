@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { bufferEncode } from '../services/bufferEncode'
   import { createPublicKeyCredential } from '../services/createPublicKeyCredential'
   import { simplifiedFetch } from '../../../core/services/simplifiedFetch'
+  import { encodeBase64 } from '../services/encodeBase64'
 
-  import type { WebauthnResponsePayload } from '../@types/WebauthnResponsePayload'
+  import type { RegisterRequest } from '../../../core/@types/api/RegisterRequest'
 
   export let username: string
   export let error: string | null
@@ -16,34 +16,28 @@
 
       console.log('register')
 
-      // todo: make sure username has not been taken by someone else
-
       const credential = await createPublicKeyCredential(username)
 
       console.log('credential', credential)
 
       if (credential === null) {
-        return
+        throw Error('credential creation failed')
       }
 
       // send creds
-      const payload: WebauthnResponsePayload = {
+      const payload: RegisterRequest = {
         id: credential.id,
-        rawId: bufferEncode(new Uint8Array(credential.rawId)),
+        rawId: encodeBase64(credential.rawId),
         type: credential.type,
         response: {
-          attestationObject: bufferEncode(
-            new Uint8Array(
-              (credential.response as any).attestationObject as ArrayBuffer
-            )
+          attestationObject: encodeBase64(
+            (credential.response as any).attestationObject as ArrayBuffer
           ),
-          clientDataJSON: bufferEncode(
-            new Uint8Array(credential.response.clientDataJSON)
-          ),
+          clientDataJSON: encodeBase64(credential.response.clientDataJSON),
         },
       }
-      console.log('payload', payload)
-      const response = await simplifiedFetch('/api/makeCredential', {
+
+      await simplifiedFetch('/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +56,10 @@
 <button
   type="button"
   on:click={register}
-  class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+  disabled={process || username.length === 0}
+  class={`transition inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-50 disabled:hover:bg-blue-100 ${
+    process ? 'disabled:cursor-wait' : 'disabled:cursor-not-allowed'
+  }`}
 >
   Register
 </button>

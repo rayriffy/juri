@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@fontsource/fira-mono': ^4.5.0
+  '@hapi/iron': ^7.0.0
   '@prisma/client': ^4.2.0
   '@sveltejs/adapter-auto': next
   '@sveltejs/kit': next
@@ -9,9 +10,9 @@ specifiers:
   '@types/cookie': ^0.5.1
   '@types/node': ^18.6.5
   autoprefixer: ^10.4.8
-  base64-js: ^1.5.1
+  base64-arraybuffer: ^1.0.2
   cbor: ^8.1.0
-  cookie: ^0.4.1
+  cookie: ^0.4.2
   nanoid: ^4.0.0
   postcss: ^8.4.16
   prettier: ^2.6.2
@@ -27,8 +28,9 @@ specifiers:
 
 dependencies:
   '@fontsource/fira-mono': 4.5.9
+  '@hapi/iron': 7.0.0
   '@prisma/client': 4.2.0_prisma@4.2.0
-  base64-js: 1.5.1
+  base64-arraybuffer: 1.0.2
   cbor: 8.1.0
   cookie: 0.4.2
   nanoid: 4.0.0
@@ -69,6 +71,43 @@ packages:
 
   /@fontsource/fira-mono/4.5.9:
     resolution: {integrity: sha512-DDhkRUjPHwPK/wB7GM/7LzGkcEC5JyTZM93YnFoP2Qfjffq3qX1asnXNqfglgZxXHXVmu3RI8OjRf87I97XCfA==}
+    dev: false
+
+  /@hapi/b64/6.0.0:
+    resolution: {integrity: sha512-Es6o4BtzvMmNF28KJGuwUzUtMjF6ToZ1hQt3UOjaXc6TNkRefel+NyQSjc9b5q3Re7xwv23r0xK3Vo3yreaJHQ==}
+    dependencies:
+      '@hapi/hoek': 10.0.1
+    dev: false
+
+  /@hapi/boom/10.0.0:
+    resolution: {integrity: sha512-1YVs9tLHhypBqqinKQRqh7FUERIolarQApO37OWkzD+z6y6USi871Sv746zBPKcIOBuI6g6y4FrwX87mmJ90Gg==}
+    dependencies:
+      '@hapi/hoek': 10.0.1
+    dev: false
+
+  /@hapi/bourne/3.0.0:
+    resolution: {integrity: sha512-Waj1cwPXJDucOib4a3bAISsKJVb15MKi9IvmTI/7ssVEm6sywXGjVJDhl6/umt1pK1ZS7PacXU3A1PmFKHEZ2w==}
+    dev: false
+
+  /@hapi/cryptiles/6.0.0:
+    resolution: {integrity: sha512-CUypQJI2F3HaKZjwlky3KyLu7p0O4WJXNJj+2AZ0czqwkwQIz8j+btOkzA3OMar8WTntnCrDx0f92PzxEK+JlA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@hapi/boom': 10.0.0
+    dev: false
+
+  /@hapi/hoek/10.0.1:
+    resolution: {integrity: sha512-CvlW7jmOhWzuqOqiJQ3rQVLMcREh0eel4IBnxDx2FAcK8g7qoJRQK4L1CPBASoCY6y8e6zuCy3f2g+HWdkzcMw==}
+    dev: false
+
+  /@hapi/iron/7.0.0:
+    resolution: {integrity: sha512-NNXJP5fpeiTCPj/4OJG2PWBjWC0/V5D8YggS9RZeuBbfUUuTYE6TbdGqLUsCzIpPI54I8W5dhwEGbRv1CnWQtw==}
+    dependencies:
+      '@hapi/b64': 6.0.0
+      '@hapi/boom': 10.0.0
+      '@hapi/bourne': 3.0.0
+      '@hapi/cryptiles': 6.0.0
+      '@hapi/hoek': 10.0.1
     dev: false
 
   /@iarna/toml/2.2.5:
@@ -379,8 +418,9 @@ packages:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
     dev: true
 
-  /base64-js/1.5.1:
-    resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
+  /base64-arraybuffer/1.0.2:
+    resolution: {integrity: sha512-I3yl4r9QB5ZRY3XuJVEPfc2XhZO6YweFPI+UovAzn+8/hb3oJ6lnysaFcjVpkCPfVWFUDvoZ8kmVDP7WyRtYtQ==}
+    engines: {node: '>= 0.6.0'}
     dev: false
 
   /binary-extensions/2.2.0:

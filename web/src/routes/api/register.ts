@@ -3,18 +3,19 @@ import crypto from 'crypto'
 import { nanoid } from 'nanoid'
 import { PrismaClient } from '@prisma/client'
 
-import { decodeAuthData } from '../../core/services/decodeAuthData'
+import { decodeRegisterAuthData } from '../../core/services/decodeRegisterAuthData'
+import { encodeBase64 } from '../../modules/authentication/services/encodeBase64'
+import { decodeBase64 } from '../../modules/authentication/services/decodeBase64'
 import { COSEECDHAtoPKCS } from '../../core/services/COSEECDHAtoPKCS'
 
 import type { RequestHandler } from '@sveltejs/kit'
-
-import type { WebauthnResponsePayload } from '../../modules/authentication/@types/WebauthnResponsePayload'
+import type { RegisterRequest } from '../../core/@types/api/RegisterRequest'
 import type { ClientData } from '../../core/@types/ClientData'
 import type { AttestationCredential } from '../../core/@types/AttestationCredential'
 
 // pre-generate challenge, and user ids
 export const GET: RequestHandler = async event => {
-  let username = event.url.searchParams.get('username')
+  const username = event.url.searchParams.get('username')
 
   // if no username is provided, then dead
   if (username === null) {
@@ -45,9 +46,7 @@ export const GET: RequestHandler = async event => {
   }
 
   // generate random challenge
-  const generatedChallenge = Buffer.from(crypto.randomBytes(32)).toString(
-    'base64'
-  )
+  const generatedChallenge = encodeBase64(crypto.randomBytes(32))
   const generatedUserId = user?.uid ?? nanoid()
 
   // if user not found then create a new one
@@ -82,25 +81,29 @@ export const GET: RequestHandler = async event => {
     body: {
       message: 'ok',
       data: {
-        uid: generatedUserId,
+        uid: encodeBase64(Buffer.from(generatedUserId)),
         challenge: generatedChallenge,
       },
     },
   }
 }
 
+// verify challenge result, and register user if success
 export const POST: RequestHandler = async event => {
-  const request: WebauthnResponsePayload = await event.request.json()
+  const request: RegisterRequest = await event.request.json()
 
   const clientData: ClientData = JSON.parse(
-    Buffer.from(request.response.clientDataJSON, 'base64url').toString()
+    Buffer.from(decodeBase64(request.response.clientDataJSON)).toString()
   )
+
+  // even clientData.challenge is decoded from base64 above, somehow browser navigator sent back as base64url
+  const encodedChallenge = encodeBase64(Buffer.from(clientData.challenge, 'base64url'))
 
   // find challenge pair
   const prisma = new PrismaClient()
   const challenge = await prisma.challenge.findFirst({
     where: {
-      challenge: Buffer.from(clientData.challenge, 'base64').toString(),
+      challenge: encodedChallenge,
       user: {
         registered: false,
       },
@@ -116,6 +119,7 @@ export const POST: RequestHandler = async event => {
 
   // if challenge of **non registered user** does not match, it's means that user already completed regis or challenge response are incorrect
   if (challenge === null) {
+    await prisma.$disconnect()
     return {
       status: 400,
       body: {
@@ -126,20 +130,19 @@ export const POST: RequestHandler = async event => {
 
   // process attestation into readable authenticator
   const attestationBuffer = Buffer.from(
-    request.response.attestationObject,
-    'base64url'
+    decodeBase64(request.response.attestationObject)
   )
   const ctapMakeCredentialResponse: AttestationCredential =
     cbor.decodeAllSync(attestationBuffer)[0]
 
-  const decodedAuthData = decodeAuthData(ctapMakeCredentialResponse.authData)
+  const decodedAuthData = decodeRegisterAuthData(ctapMakeCredentialResponse.authData)
   const publicKey = COSEECDHAtoPKCS(decodedAuthData.COSEPublicKey)
 
   const authenticatorPayload = {
     fmt: ctapMakeCredentialResponse.fmt,
-    publicKey: Buffer.from(publicKey).toString('base64url'),
+    publicKey: encodeBase64(publicKey),
     counter: decodedAuthData.counter,
-    credentialId: Buffer.from(decodedAuthData.credID).toString('base64url'),
+    credentialId: encodeBase64(decodedAuthData.credID),
   }
 
   // push authenticator to database
