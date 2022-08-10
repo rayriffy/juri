@@ -19,6 +19,7 @@
 		F21AE9FE28A3A764008EBF6B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F21AEA0028A3A765008EBF6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F21AEA0328A3A765008EBF6B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F2989ED028A3AD4F008A8163 /* みのり.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "みのり.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +52,7 @@
 		F21AE9FB28A3A764008EBF6B /* みのり */ = {
 			isa = PBXGroup;
 			children = (
+				F2989ED028A3AD4F008A8163 /* みのり.entitlements */,
 				F21AE9FC28A3A764008EBF6B /* App.swift */,
 				F21AE9FE28A3A764008EBF6B /* ContentView.swift */,
 				F21AEA0028A3A765008EBF6B /* Assets.xcassets */,
@@ -264,6 +266,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "みのり/みのり.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"みのり/Preview Content\"";
@@ -297,6 +300,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "みのり/みのり.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"みのり/Preview Content\"";
