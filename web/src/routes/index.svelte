@@ -11,6 +11,6 @@
   <meta name="description" content="WebAuthn full-stack demo application" />
 </svelte:head>
 
-<section>
+<section class="my-4">
   <AuthenticationCard />
 </section>
