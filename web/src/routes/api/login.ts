@@ -2,7 +2,7 @@ import crypto from 'crypto'
 import { PrismaClient } from '@prisma/client'
 
 import { decodeBase64 } from '../../core/services/decodeBase64'
-import { encodeBase64 } from '../../modules/authentication/services/encodeBase64'
+import { encodeBase64 } from '../../core/services/encodeBase64'
 import { decodeLoginAuthData } from '../../modules/login/services/decodeLoginAuthData'
 import { getSha256Hash } from '../../modules/login/services/getSha256Hash'
 import { verifySignature } from '../../modules/login/services/verifySignature'

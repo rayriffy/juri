@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid'
 import { PrismaClient } from '@prisma/client'
 
 import { decodeRegisterAuthData } from '../../modules/register/services/decodeRegisterAuthData'
-import { encodeBase64 } from '../../modules/authentication/services/encodeBase64'
+import { encodeBase64 } from '../../core/services/encodeBase64'
 import { decodeBase64 } from '../../core/services/decodeBase64'
 import { COSEECDHAtoPKCS } from '../../modules/register/services/COSEECDHAtoPKCS'
 
