@@ -25,7 +25,7 @@ export const createPublicKeyCredential = async (username: string) => {
       challenge: decodeBase64(preCredential.data.challenge),
       rp: {
         name: 'RAYRIFFY',
-        id: 'localhost',
+        id: preCredential.data.host,
       },
       // rp: {
       //   name: 'RAYRIFFY',
