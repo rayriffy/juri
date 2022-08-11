@@ -81,7 +81,10 @@ export const GET: RequestHandler = async event => {
     body: {
       message: 'ok',
       data: {
-        host: process.env.NODE_ENV === 'development' ? 'localhost' : 'minori.rayriffy.com',
+        rp: {
+          name: process.env.NODE_ENV === 'development' ? 'RAYRIFFY' : 'みのり',
+          id: process.env.NODE_ENV === 'development' ? 'localhost' : 'minori.rayriffy.com',
+        }, 
         uid: encodeBase64(Buffer.from(generatedUserId)),
         challenge: generatedChallenge,
       },
