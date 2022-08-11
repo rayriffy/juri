@@ -28,6 +28,7 @@
       placeholder="prayut-chan"
       disabled={process}
       bind:value={username}
+      autocomplete="username webauthn"
     />
   </div>
 </div>

@@ -1,11 +1,13 @@
 <script lang="ts">
-  export let error: string | null
+  import Authenticators from '../../modules/app/components/authenticators.svelte'
+
+  export let error: string
   export let uid: string
   export let username: string
 </script>
 
-<section>
-  {#if error !== null}
+{#if error !== null}
+  <section>
     <h1 class="font-bold text-2xl text-gray-900">Not logged in</h1>
     <p class="font-gray-600">{error}</p>
     <div class="mt-2">
@@ -16,8 +18,13 @@
         Back to home
       </a>
     </div>
-  {:else}
+  </section>
+{:else}
+  <section>
     <h1 class="font-bold text-2xl">Welcome {username}!</h1>
+
+    <Authenticators />
+
     <div class="my-2">
       <a
         href="/api/logout"
@@ -26,6 +33,5 @@
         Logout
       </a>
     </div>
-
-  {/if}
-</section>
+  </section>
+{/if}

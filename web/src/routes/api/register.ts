@@ -1,17 +1,17 @@
-import cbor from 'cbor'
-import crypto from 'crypto'
+import cookie from 'cookie'
 import { nanoid } from 'nanoid'
 import { PrismaClient } from '@prisma/client'
 
-import { decodeRegisterAuthData } from '../../modules/register/services/decodeRegisterAuthData'
 import { encodeBase64 } from '../../core/services/encodeBase64'
-import { decodeBase64 } from '../../core/services/decodeBase64'
-import { COSEECDHAtoPKCS } from '../../modules/register/services/COSEECDHAtoPKCS'
+import { setSession } from '../../core/services/session/set'
+import { sessionCookieName } from '../../core/constants/sessionCookieName'
+import { maxSessionAge } from '../../core/constants/maxSessionAge'
+import { completeAuthenticatorChallenge } from '../../modules/register/services/completeAuthenticatorChallenge'
+import { createAuthenticatorChallenge } from '../../modules/register/services/createAuthenticatorChallenge'
+import { relyingParty } from '../../core/constants/relyingParty'
 
 import type { RequestHandler } from '@sveltejs/kit'
 import type { RegisterRequest } from '../../core/@types/api/RegisterRequest'
-import type { ClientData } from '../../core/@types/ClientData'
-import type { AttestationCredential } from '../../core/@types/AttestationCredential'
 
 // pre-generate challenge, and user ids
 export const GET: RequestHandler = async event => {
@@ -45,8 +45,6 @@ export const GET: RequestHandler = async event => {
     }
   }
 
-  // generate random challenge
-  const generatedChallenge = encodeBase64(crypto.randomBytes(32))
   const generatedUserId = user?.uid ?? nanoid()
 
   // if user not found then create a new one
@@ -58,21 +56,8 @@ export const GET: RequestHandler = async event => {
       },
     })
   }
-
-  // push challenge to temporary bin
-  await prisma.challenge.upsert({
-    where: {
-      uid: generatedUserId,
-    },
-    update: {
-      challenge: generatedChallenge,
-      createdAt: new Date(),
-    },
-    create: {
-      uid: generatedUserId,
-      challenge: generatedChallenge,
-    },
-  })
+  
+  const challenge = await createAuthenticatorChallenge(prisma, generatedUserId)
 
   // terminate connection
   await prisma.$disconnect()
@@ -81,12 +66,9 @@ export const GET: RequestHandler = async event => {
     body: {
       message: 'ok',
       data: {
-        rp: {
-          name: process.env.NODE_ENV === 'development' ? 'RAYRIFFY' : 'みのり',
-          id: process.env.NODE_ENV === 'development' ? 'localhost' : 'minori.rayriffy.com',
-        }, 
+        rp: relyingParty,
         uid: encodeBase64(Buffer.from(generatedUserId)),
-        challenge: generatedChallenge,
+        challenge: challenge,
       },
     },
   }
@@ -96,89 +78,60 @@ export const GET: RequestHandler = async event => {
 export const POST: RequestHandler = async event => {
   const request: RegisterRequest = await event.request.json()
 
-  const clientData: ClientData = JSON.parse(
-    Buffer.from(decodeBase64(request.response.clientDataJSON)).toString()
-  )
-
-  // even clientData.challenge is decoded from base64 above, somehow browser navigator sent back as base64url
-  const encodedChallenge = encodeBase64(Buffer.from(clientData.challenge, 'base64url'))
-
-  // find challenge pair
   const prisma = new PrismaClient()
-  const challenge = await prisma.challenge.findFirst({
-    where: {
-      challenge: encodedChallenge,
-      user: {
-        registered: false,
-      },
-    },
-    include: {
-      user: {
-        select: {
-          uid: true,
-        },
-      },
-    },
-  })
 
-  // if challenge of **non registered user** does not match, it's means that user already completed regis or challenge response are incorrect
-  if (challenge === null) {
+  try {
+    const completedChallenge = await completeAuthenticatorChallenge(
+      prisma,
+      request.response.clientDataJSON,
+      request.response.attestationObject
+    )
+
+    // allow user to be registered
+    await prisma.user.update({
+      where: {
+        uid: completedChallenge.uid,
+      },
+      data: {
+        registered: true,
+      },
+    })
     await prisma.$disconnect()
+
+    // issue user token
+    const authenticatedToken = await setSession({
+      id: completedChallenge.uid,
+      username: completedChallenge.username,
+    })
+
+    return {
+      status: 200,
+      headers: {
+        'Set-Cookie': cookie.serialize(sessionCookieName, authenticatedToken, {
+          path: '/',
+          httpOnly: true,
+          sameSite: 'strict',
+          secure: process.env.NODE_ENV === 'production',
+          maxAge: maxSessionAge,
+        }),
+      },
+      body: {
+        message: 'ok',
+      },
+    }
+  } catch (e) {
+    let errorMessage: string = (e as any).message
+    switch (errorMessage) {
+      case 'challenge-failed':
+        errorMessage = 'challenge response does not match'
+        break
+    }
+
     return {
       status: 400,
       body: {
-        message: 'challenge response does not match',
-      },
+        message: errorMessage
+      }
     }
-  }
-
-  // process attestation into readable authenticator
-  const attestationBuffer = Buffer.from(
-    decodeBase64(request.response.attestationObject)
-  )
-  const ctapMakeCredentialResponse: AttestationCredential =
-    cbor.decodeAllSync(attestationBuffer)[0]
-
-  const decodedAuthData = decodeRegisterAuthData(ctapMakeCredentialResponse.authData)
-  const publicKey = COSEECDHAtoPKCS(decodedAuthData.COSEPublicKey)
-
-  const authenticatorPayload = {
-    fmt: ctapMakeCredentialResponse.fmt,
-    publicKey: encodeBase64(publicKey),
-    counter: decodedAuthData.counter,
-    credentialId: encodeBase64(decodedAuthData.credID),
-  }
-
-  // push authenticator to database
-  await prisma.authenticator.create({
-    data: {
-      uid: challenge.user.uid,
-      ...authenticatorPayload,
-    },
-  })
-
-  // allow user to be registered
-  await prisma.user.update({
-    where: {
-      uid: challenge.user.uid,
-    },
-    data: {
-      registered: true,
-    },
-  })
-
-  // delete challenge from temporary bin
-  await prisma.challenge.delete({
-    where: {
-      uid: challenge.user.uid,
-    },
-  })
-
-  await prisma.$disconnect()
-  return {
-    status: 200,
-    body: {
-      message: 'ok',
-    },
   }
 }
