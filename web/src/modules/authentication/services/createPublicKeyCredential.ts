@@ -46,7 +46,6 @@ export const createPublicKeyCredential = async (username: string) => {
       authenticatorSelection: {
         userVerification: 'preferred',
         requireResidentKey: false,
-        authenticatorAttachment: 'cross-platform'
       },
       attestation: 'direct',
     }
