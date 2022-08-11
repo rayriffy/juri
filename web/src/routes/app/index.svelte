@@ -1,5 +1,6 @@
 <script lang="ts">
   import Authenticators from '../../modules/app/components/authenticators.svelte'
+  import Juri from '../../modules/app/components/juri.svelte'
 
   export let error: string
   export let uid: string
@@ -20,11 +21,9 @@
     </div>
   </section>
 {:else}
-  <section>
+  <section class="mb-8">
     <h1 class="font-bold text-2xl">Welcome {username}!</h1>
-
     <Authenticators />
-
     <div class="my-2">
       <a
         href="/api/logout"
@@ -34,4 +33,5 @@
       </a>
     </div>
   </section>
+  <Juri />
 {/if}
