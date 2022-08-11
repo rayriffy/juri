@@ -45,6 +45,9 @@
         },
         body: JSON.stringify(payload),
       })
+
+      // if register successful, redirect to home
+      window.location.href="/app"
     } catch (e) {
       error = (e as any)?.message ?? 'unexpected error occured'
     } finally {

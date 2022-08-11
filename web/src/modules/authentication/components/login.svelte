@@ -67,6 +67,9 @@
         },
         body: JSON.stringify(loginPayload),
       })
+
+      // if login successful, redirect to home
+      window.location.href="/app"
     } catch (e) {
       error = (e as any)?.message ?? 'unexpected error occured'
     } finally {

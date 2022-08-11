@@ -1,12 +1,16 @@
 import crypto from 'crypto'
+import cookie from 'cookie'
 import { PrismaClient } from '@prisma/client'
 
 import { decodeBase64 } from '../../core/services/decodeBase64'
 import { encodeBase64 } from '../../core/services/encodeBase64'
+import { setSession } from '../../core/services/session/set'
 import { decodeLoginAuthData } from '../../modules/login/services/decodeLoginAuthData'
 import { getSha256Hash } from '../../modules/login/services/getSha256Hash'
 import { verifySignature } from '../../modules/login/services/verifySignature'
 import { ASN1toPEM } from '../../modules/login/services/ASN1toPEM'
+import { sessionCookieName } from '../../core/constants/sessionCookieName'
+import { maxSessionAge } from '../../core/constants/maxSessionAge'
 
 import type { RequestHandler } from '@sveltejs/kit'
 import type { LoginResponse } from '../../core/@types/api/LoginResponse'
@@ -108,6 +112,14 @@ export const POST: RequestHandler = async event => {
     where: {
       credentialId: encodeBase64(Buffer.from(id, 'base64url')),
     },
+    include: {
+      user: {
+        select: {
+          uid: true,
+          username: true
+        }
+      }
+    }
   })
   const challengePromise = await prisma.challenge.findFirst({
     where: {
@@ -175,8 +187,26 @@ export const POST: RequestHandler = async event => {
     }
   }
 
+  // issue user token
+  const authenticatedToken = await setSession({
+    id: authenticator.user.uid,
+    username: authenticator.user.username,
+  })
+
+  // console.log('generated token')
+  // console.log(authenticatedToken)
+
   return {
     status: 200,
+    headers: {
+      'Set-Cookie': cookie.serialize(sessionCookieName, authenticatedToken, {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: maxSessionAge,
+      }),
+    },
     body: {
       message: 'ok',
     },

@@ -2,11 +2,20 @@ import Iron from '@hapi/iron'
 
 const { IRON_SECRET } = process.env
 
+interface DecodedSession {
+  id: string
+  username: string
+  createdAt: number
+  maxAge: number
+}
+
 // recieve encrypted token, return user session
 export const getSession = async (token: string | undefined) => {
-  if (!token) return
+  if (!token) {
+    throw new Error('empty-token')
+  }
 
-  const session = await Iron.unseal(token, IRON_SECRET ?? '', Iron.defaults)
+  const session: DecodedSession = await Iron.unseal(token, IRON_SECRET ?? '', Iron.defaults)
   const expiresAt = session.createdAt + session.maxAge * 1000
 
   // Validate the expiration date of the session
