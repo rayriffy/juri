@@ -2,8 +2,8 @@
   import { onMount } from 'svelte'
 
   import AddAuthenticatorButton from './addAuthenticator.svelte'
+  import AuthenticatorCard from './authenticator.svelte'
   import KeyIcon from './keyIcon.svelte'
-  import TrashIcon from './trashIcon.svelte'
 
   import { simplifiedFetch } from '../../../core/services/simplifiedFetch'
 
@@ -22,6 +22,22 @@
     )
     authenticators = data
     progress = false
+  }
+
+  const onRemoveKey = async (credentialId: string) => {
+    progress = true
+
+    await simplifiedFetch<ResponseBuilder>(
+      '/api/app/removeAuthenticator',
+      {
+        method: 'DELETE',
+        body: JSON.stringify({
+          credentialId
+        })
+      }
+    )
+
+    refresh()
   }
 
   onMount(() => {
@@ -49,16 +65,12 @@
       </div>
     {/if}
     {#each authenticators as authenticator}
-      <div
-        class="py-3 px-4 text-xs sm:text-base flex justify-between items-center"
-      >
-        <span
-          class="text-gray-800 font-mono truncate text-xs max-w-[14rem] sm:text-base sm:max-w-sm"
-        >
-          {window.btoa(authenticator.id)}
-        </span>
-        <TrashIcon class="w-5 h-5 text-gray-800 ml-4 flex-shrink-0" />
-      </div>
+      <AuthenticatorCard
+        onRemoveKey={onRemoveKey}
+        authenticatorCount={authenticators.length}
+        bind:progress
+        bind:authenticator
+      />
     {/each}
   </div>
 </section>

@@ -13,7 +13,7 @@
   <h1 class="font-bold text-xl">Minori</h1>
 </header>
 
-<main class="max-w-xl mx-auto py-4 px-2 sm:px-0">
+<main class="max-w-xl mx-auto py-4 px-4 sm:px-0">
   {#if isPubkeyCredsSupported === true}
     <slot />
   {:else if isPubkeyCredsSupported === false}
