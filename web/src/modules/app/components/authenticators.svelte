@@ -1,14 +1,16 @@
 <script lang="ts">
   import { onMount } from 'svelte'
 
+  import AddAuthenticatorButton from './addAuthenticator.svelte'
   import KeyIcon from './keyIcon.svelte'
-  import PlusIcon from './plusIcon.svelte'
   import TrashIcon from './trashIcon.svelte'
 
   import { simplifiedFetch } from '../../../core/services/simplifiedFetch'
 
   import type { Authenticator } from '../@types/Authenticator'
   import type { ResponseBuilder } from '../../../core/@types/api/ResponseBuilder'
+
+  export let username: string
 
   let progress: boolean = true
   let authenticators: Authenticator[] = []
@@ -34,13 +36,7 @@
       <span>Authenticators</span>
     </h1>
 
-    <button
-      type="button"
-      class="inline-flex items-center px-2.5 py-1 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-    >
-      <PlusIcon class="w-4 h-4 -ml-1" />
-      Add
-    </button>
+    <AddAuthenticatorButton onRefresh={refresh} bind:username bind:progress />
   </div>
   <div class="bg-white border rounded-xl shadow mt-2 divide-y">
     {#if authenticators.length === 0 && progress}

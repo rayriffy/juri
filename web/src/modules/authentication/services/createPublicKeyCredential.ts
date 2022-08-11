@@ -1,21 +1,22 @@
 import { simplifiedFetch } from '../../../core/services/simplifiedFetch'
 
 import { decodeBase64 } from '../../../core/services/decodeBase64'
+import type { ResponseBuilder } from '../../../core/@types/api/ResponseBuilder'
+import type { AuthenticatorChallenge } from '../../../core/@types/AuthenticatorChallenge'
 
-export const createPublicKeyCredential = async (username: string) => {
+export const createPublicKeyCredential = async (username: string, overrideApiPath = '/api/register') => {
   // get random generated challenge
   let urlParams = new URLSearchParams({
     username,
   })
-  const preCredential = await simplifiedFetch(
-    `/api/register?${urlParams}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  )
+  const preCredential = await simplifiedFetch<
+    ResponseBuilder<AuthenticatorChallenge>
+  >(`${overrideApiPath}?${urlParams}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
 
   console.log('preCredential', preCredential)
 
@@ -54,6 +55,7 @@ export const createPublicKeyCredential = async (username: string) => {
     'publicKeyCredentialCreationOptions',
     publicKeyCredentialCreationOptions
   )
+
   // request credential
   return navigator.credentials.create({
     publicKey: publicKeyCredentialCreationOptions,

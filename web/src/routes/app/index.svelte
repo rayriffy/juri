@@ -23,7 +23,7 @@
 {:else}
   <section class="mb-8">
     <h1 class="font-bold text-2xl">Welcome {username}!</h1>
-    <Authenticators />
+    <Authenticators bind:username />
     <div class="my-2">
       <a
         href="/api/logout"

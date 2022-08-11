@@ -8,6 +8,7 @@ import { completeAuthenticatorChallenge } from '../../../modules/register/servic
 
 import type { RequestHandler } from '@sveltejs/kit'
 import type { RegisterRequest } from '../../../core/@types/api/RegisterRequest'
+import type { AuthenticatorChallenge } from '../../../core/@types/AuthenticatorChallenge'
 
 export const GET: RequestHandler = async event => {
   const prisma = new PrismaClient()
@@ -18,15 +19,18 @@ export const GET: RequestHandler = async event => {
     const challenge = await createAuthenticatorChallenge(prisma, session.id)
     await prisma.$disconnect()
 
+    // build payload
+    const payload: AuthenticatorChallenge = {
+      rp: relyingParty,
+      uid: encodeBase64(Buffer.from(session.id)),
+      challenge: challenge,
+    }
+
     return {
       status: 200,
       body: {
         message: 'ok',
-        data: {
-          rp: relyingParty,
-          uid: encodeBase64(Buffer.from(session.id)),
-          challenge: challenge,
-        },
+        data: payload as any,
       },
     }
   } catch (e) {
@@ -56,8 +60,8 @@ export const POST: RequestHandler = async event => {
     return {
       status: 200,
       body: {
-        message: 'created'
-      }
+        message: 'created',
+      },
     }
   } catch (e) {
     let errorMessage: string = (e as any).message
@@ -70,8 +74,8 @@ export const POST: RequestHandler = async event => {
     return {
       status: 400,
       body: {
-        message: errorMessage
-      }
+        message: errorMessage,
+      },
     }
   }
 }

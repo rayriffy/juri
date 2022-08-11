@@ -21,9 +21,6 @@ export const completeAuthenticatorChallenge = async (prismaClient: PrismaClient,
   const challenge = await prismaClient.challenge.findFirst({
     where: {
       challenge: encodedChallenge,
-      user: {
-        registered: false,
-      },
     },
     include: {
       user: {

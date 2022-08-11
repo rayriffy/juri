@@ -12,6 +12,7 @@ import { relyingParty } from '../../core/constants/relyingParty'
 
 import type { RequestHandler } from '@sveltejs/kit'
 import type { RegisterRequest } from '../../core/@types/api/RegisterRequest'
+import type { AuthenticatorChallenge } from '../../core/@types/AuthenticatorChallenge'
 
 // pre-generate challenge, and user ids
 export const GET: RequestHandler = async event => {
@@ -61,15 +62,19 @@ export const GET: RequestHandler = async event => {
 
   // terminate connection
   await prisma.$disconnect()
+
+  // build payload
+  const payload: AuthenticatorChallenge = {
+    rp: relyingParty,
+    uid: encodeBase64(Buffer.from(generatedUserId)),
+    challenge: challenge,
+  }
+
   return {
     status: 200,
     body: {
       message: 'ok',
-      data: {
-        rp: relyingParty,
-        uid: encodeBase64(Buffer.from(generatedUserId)),
-        challenge: challenge,
-      },
+      data: payload as any,
     },
   }
 }
