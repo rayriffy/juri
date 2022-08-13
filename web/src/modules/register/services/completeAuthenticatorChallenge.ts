@@ -56,12 +56,21 @@ export const completeAuthenticatorChallenge = async (prismaClient: PrismaClient,
   }
 
   // push authenticator to database
-  await prismaClient.authenticator.create({
-    data: {
-      uid: challenge.user.uid,
-      ...authenticatorPayload,
-    },
-  })
+  await Promise.all(
+    [
+      prismaClient.authenticator.create({
+        data: {
+          uid: challenge.user.uid,
+          ...authenticatorPayload,
+        },
+      }),
+      prismaClient.challenge.delete({
+        where: {
+          id: challenge.id,
+        }
+      })
+    ]
+  )
 
   return challenge.user
 }
