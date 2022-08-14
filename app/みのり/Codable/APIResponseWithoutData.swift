@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct APIResponseWithoutData: Codable {
+  var message: String
+}

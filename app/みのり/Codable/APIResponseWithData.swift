@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct APIResponse<T : Codable>: Codable {
+struct APIResponseWithData<T : Codable>: Codable {
   var message: String
   var data: T
 }

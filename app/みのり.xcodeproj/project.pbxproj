@@ -11,6 +11,15 @@
 		F21AE9FF28A3A764008EBF6B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21AE9FE28A3A764008EBF6B /* ContentView.swift */; };
 		F21AEA0128A3A765008EBF6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F21AEA0028A3A765008EBF6B /* Assets.xcassets */; };
 		F21AEA0428A3A765008EBF6B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F21AEA0328A3A765008EBF6B /* Preview Assets.xcassets */; };
+		F280378128A5C0F4001B194B /* Juri.swift in Sources */ = {isa = PBXBuildFile; fileRef = F280378028A5C0F4001B194B /* Juri.swift */; };
+		F280378728A5C423001B194B /* SwiftUIGIF in Frameworks */ = {isa = PBXBuildFile; productRef = F280378628A5C423001B194B /* SwiftUIGIF */; };
+		F280378928A5C7FD001B194B /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = F280378828A5C7FD001B194B /* Header.swift */; };
+		F280378C28A5CE03001B194B /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F280378B28A5CE03001B194B /* LocalStorage.swift */; };
+		F280378E28A5CF59001B194B /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F280378D28A5CF59001B194B /* UserSession.swift */; };
+		F280379128A5CF92001B194B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F280379028A5CF92001B194B /* User.swift */; };
+		F2B090F828A6722C00EDB873 /* APIResponseWithData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B090F728A6722C00EDB873 /* APIResponseWithData.swift */; };
+		F2B090FA28A6733F00EDB873 /* APIResponseWithoutData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B090F928A6733F00EDB873 /* APIResponseWithoutData.swift */; };
+		F2B090FD28A673BE00EDB873 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F2B090FC28A673BE00EDB873 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,7 +28,14 @@
 		F21AE9FE28A3A764008EBF6B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F21AEA0028A3A765008EBF6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F21AEA0328A3A765008EBF6B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F280378028A5C0F4001B194B /* Juri.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Juri.swift; sourceTree = "<group>"; };
+		F280378828A5C7FD001B194B /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
+		F280378B28A5CE03001B194B /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
+		F280378D28A5CF59001B194B /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
+		F280379028A5CF92001B194B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F2989ED028A3AD4F008A8163 /* みのり.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "みのり.entitlements"; sourceTree = "<group>"; };
+		F2B090F728A6722C00EDB873 /* APIResponseWithData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponseWithData.swift; sourceTree = "<group>"; };
+		F2B090F928A6733F00EDB873 /* APIResponseWithoutData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponseWithoutData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +43,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F280378728A5C423001B194B /* SwiftUIGIF in Frameworks */,
+				F2B090FD28A673BE00EDB873 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,7 +57,9 @@
 				F21AE9FB28A3A764008EBF6B /* みのり */,
 				F21AE9FA28A3A764008EBF6B /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		F21AE9FA28A3A764008EBF6B /* Products */ = {
 			isa = PBXGroup;
@@ -52,6 +72,10 @@
 		F21AE9FB28A3A764008EBF6B /* みのり */ = {
 			isa = PBXGroup;
 			children = (
+				F2B090FE28A678B600EDB873 /* Style */,
+				F280378F28A5CF86001B194B /* Codable */,
+				F280378A28A5CDF9001B194B /* Data */,
+				F280377F28A5C0EA001B194B /* Components */,
 				F2989ED028A3AD4F008A8163 /* みのり.entitlements */,
 				F21AE9FC28A3A764008EBF6B /* App.swift */,
 				F21AE9FE28A3A764008EBF6B /* ContentView.swift */,
@@ -67,6 +91,41 @@
 				F21AEA0328A3A765008EBF6B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F280377F28A5C0EA001B194B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				F280378028A5C0F4001B194B /* Juri.swift */,
+				F280378828A5C7FD001B194B /* Header.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		F280378A28A5CDF9001B194B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				F280378B28A5CE03001B194B /* LocalStorage.swift */,
+				F280378D28A5CF59001B194B /* UserSession.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		F280378F28A5CF86001B194B /* Codable */ = {
+			isa = PBXGroup;
+			children = (
+				F280379028A5CF92001B194B /* User.swift */,
+				F2B090F728A6722C00EDB873 /* APIResponseWithData.swift */,
+				F2B090F928A6733F00EDB873 /* APIResponseWithoutData.swift */,
+			);
+			path = Codable;
+			sourceTree = "<group>";
+		};
+		F2B090FE28A678B600EDB873 /* Style */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Style;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -85,6 +144,10 @@
 			dependencies = (
 			);
 			name = "みのり";
+			packageProductDependencies = (
+				F280378628A5C423001B194B /* SwiftUIGIF */,
+				F2B090FC28A673BE00EDB873 /* Alamofire */,
+			);
 			productName = "みのり";
 			productReference = F21AE9F928A3A764008EBF6B /* みのり.app */;
 			productType = "com.apple.product-type.application";
@@ -113,6 +176,10 @@
 				Base,
 			);
 			mainGroup = F21AE9F028A3A764008EBF6B;
+			packageReferences = (
+				F280378528A5C423001B194B /* XCRemoteSwiftPackageReference "swiftui-gif" */,
+				F2B090FB28A673BE00EDB873 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = F21AE9FA28A3A764008EBF6B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -139,8 +206,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F280378928A5C7FD001B194B /* Header.swift in Sources */,
+				F280378C28A5CE03001B194B /* LocalStorage.swift in Sources */,
+				F280378128A5C0F4001B194B /* Juri.swift in Sources */,
+				F280378E28A5CF59001B194B /* UserSession.swift in Sources */,
+				F2B090FA28A6733F00EDB873 /* APIResponseWithoutData.swift in Sources */,
 				F21AE9FF28A3A764008EBF6B /* ContentView.swift in Sources */,
+				F2B090F828A6722C00EDB873 /* APIResponseWithData.swift in Sources */,
 				F21AE9FD28A3A764008EBF6B /* App.swift in Sources */,
+				F280379128A5CF92001B194B /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,8 +351,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -292,6 +366,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				UIUserInterfaceStyle = Light;
 			};
 			name = Debug;
 		};
@@ -311,8 +386,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -326,6 +401,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				UIUserInterfaceStyle = Light;
 			};
 			name = Release;
 		};
@@ -351,6 +427,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F280378528A5C423001B194B /* XCRemoteSwiftPackageReference "swiftui-gif" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/globulus/swiftui-gif.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		F2B090FB28A673BE00EDB873 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F280378628A5C423001B194B /* SwiftUIGIF */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F280378528A5C423001B194B /* XCRemoteSwiftPackageReference "swiftui-gif" */;
+			productName = SwiftUIGIF;
+		};
+		F2B090FC28A673BE00EDB873 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F2B090FB28A673BE00EDB873 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F21AE9F128A3A764008EBF6B /* Project object */;
 }

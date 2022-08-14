@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+class UserSession: ObservableObject {
+  @Published private var initialize: Bool = false
+  @Published private var user: User? = nil
+  
+  init() {
+    print(LocalStorage.authTokenValue)
+  }
+}
