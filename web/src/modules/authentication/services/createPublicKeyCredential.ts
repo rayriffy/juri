@@ -4,7 +4,10 @@ import { decodeBase64 } from '../../../core/services/decodeBase64'
 import type { ResponseBuilder } from '../../../core/@types/api/ResponseBuilder'
 import type { AuthenticatorChallenge } from '../../../core/@types/AuthenticatorChallenge'
 
-export const createPublicKeyCredential = async (username: string, overrideApiPath = '/api/register') => {
+export const createPublicKeyCredential = async (
+  username: string,
+  overrideApiPath = '/api/register'
+) => {
   // get random generated challenge
   let urlParams = new URLSearchParams({
     username,

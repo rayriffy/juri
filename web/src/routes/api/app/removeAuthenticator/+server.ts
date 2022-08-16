@@ -1,4 +1,5 @@
-import { authenticateUserSession } from '../../../core/services/authenticateUserSession'
+import { json as json$1 } from '@sveltejs/kit'
+import { authenticateUserSession } from '../../../../core/services/authenticateUserSession'
 
 import type { RequestHandler } from '@sveltejs/kit'
 import { PrismaClient } from '@prisma/client'
@@ -14,8 +15,8 @@ export const DELETE: RequestHandler = async event => {
     // list authenticators again
     const authenticators = await prisma.authenticator.findMany({
       where: {
-        uid: session.id
-      }
+        uid: session.id,
+      },
     })
 
     /**
@@ -24,33 +25,34 @@ export const DELETE: RequestHandler = async event => {
      */
     if (authenticators.length <= 1) {
       await prisma.$disconnect()
-      return {
-        status: 400,
-        body: {
+      return json$1(
+        {
           message: 'user only have one key left',
         },
-      }
+        {
+          status: 400,
+        }
+      )
     }
 
     await prisma.authenticator.deleteMany({
       where: {
-        credentialId: request.credentialId
-      }
+        credentialId: request.credentialId,
+      },
     })
     await prisma.$disconnect()
 
-    return {
-      status: 200,
-      body: {
-        message: 'ok'
-      }
-    }
+    return json$1({
+      message: 'ok',
+    })
   } catch (e) {
-    return {
-      status: 401,
-      body: {
-        message: 'unauthorized'
+    return json$1(
+      {
+        message: 'unauthorized',
+      },
+      {
+        status: 401,
       }
-    }
+    )
   }
 }

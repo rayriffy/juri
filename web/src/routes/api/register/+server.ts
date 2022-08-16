@@ -1,18 +1,19 @@
+import { json as json$1 } from '@sveltejs/kit'
 import cookie from 'cookie'
 import { nanoid } from 'nanoid'
 import { PrismaClient } from '@prisma/client'
 
-import { encodeBase64 } from '../../core/services/encodeBase64'
-import { setSession } from '../../core/services/session/set'
-import { sessionCookieName } from '../../core/constants/sessionCookieName'
-import { maxSessionAge } from '../../core/constants/maxSessionAge'
-import { completeAuthenticatorChallenge } from '../../modules/register/services/completeAuthenticatorChallenge'
-import { createAuthenticatorChallenge } from '../../modules/register/services/createAuthenticatorChallenge'
-import { relyingParty } from '../../core/constants/relyingParty'
+import { encodeBase64 } from '../../../core/services/encodeBase64'
+import { setSession } from '../../../core/services/session/set'
+import { sessionCookieName } from '../../../core/constants/sessionCookieName'
+import { maxSessionAge } from '../../../core/constants/maxSessionAge'
+import { completeAuthenticatorChallenge } from '../../../modules/register/services/completeAuthenticatorChallenge'
+import { createAuthenticatorChallenge } from '../../../modules/register/services/createAuthenticatorChallenge'
+import { relyingParty } from '../../../core/constants/relyingParty'
 
 import type { RequestHandler } from '@sveltejs/kit'
-import type { RegisterRequest } from '../../core/@types/api/RegisterRequest'
-import type { AuthenticatorChallenge } from '../../core/@types/AuthenticatorChallenge'
+import type { RegisterRequest } from '../../../core/@types/api/RegisterRequest'
+import type { AuthenticatorChallenge } from '../../../core/@types/AuthenticatorChallenge'
 
 // pre-generate challenge, and user ids
 export const GET: RequestHandler = async event => {
@@ -20,12 +21,14 @@ export const GET: RequestHandler = async event => {
 
   // if no username is provided, then dead
   if (username === null) {
-    return {
-      status: 400,
-      body: {
+    return json$1(
+      {
         message: 'no username provided',
       },
-    }
+      {
+        status: 400,
+      }
+    )
   }
 
   // check if there're any existing records for this username
@@ -38,12 +41,14 @@ export const GET: RequestHandler = async event => {
 
   // if user already completed registration, then dead
   if (user?.registered) {
-    return {
-      status: 400,
-      body: {
+    return json$1(
+      {
         message: 'username has already been taken',
       },
-    }
+      {
+        status: 400,
+      }
+    )
   }
 
   const generatedUserId = user?.uid ?? nanoid()
@@ -57,7 +62,7 @@ export const GET: RequestHandler = async event => {
       },
     })
   }
-  
+
   const challenge = await createAuthenticatorChallenge(prisma, generatedUserId)
 
   // terminate connection
@@ -70,13 +75,10 @@ export const GET: RequestHandler = async event => {
     challenge: challenge,
   }
 
-  return {
-    status: 200,
-    body: {
-      message: 'ok',
-      data: payload as any,
-    },
-  }
+  return json$1({
+    message: 'ok',
+    data: payload as any,
+  })
 }
 
 // verify challenge result, and register user if success
@@ -109,21 +111,26 @@ export const POST: RequestHandler = async event => {
       username: completedChallenge.username,
     })
 
-    return {
-      status: 200,
-      headers: {
-        'Set-Cookie': cookie.serialize(sessionCookieName, authenticatedToken, {
-          path: '/',
-          httpOnly: true,
-          sameSite: 'strict',
-          secure: process.env.NODE_ENV === 'production',
-          maxAge: maxSessionAge,
-        }),
-      },
-      body: {
+    return json$1(
+      {
         message: 'ok',
       },
-    }
+      {
+        headers: {
+          'Set-Cookie': cookie.serialize(
+            sessionCookieName,
+            authenticatedToken,
+            {
+              path: '/',
+              httpOnly: true,
+              sameSite: 'strict',
+              secure: process.env.NODE_ENV === 'production',
+              maxAge: maxSessionAge,
+            }
+          ),
+        },
+      }
+    )
   } catch (e) {
     let errorMessage: string = (e as any).message
     switch (errorMessage) {
@@ -132,11 +139,13 @@ export const POST: RequestHandler = async event => {
         break
     }
 
-    return {
-      status: 400,
-      body: {
-        message: errorMessage
+    return json$1(
+      {
+        message: errorMessage,
+      },
+      {
+        status: 400,
       }
-    }
+    )
   }
 }

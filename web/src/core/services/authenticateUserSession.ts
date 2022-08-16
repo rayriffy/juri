@@ -9,7 +9,9 @@ export const authenticateUserSession = async (
   event: RequestEvent<Record<string, string>>
 ) => {
   // read cookie
-  const authenticationCookie = cookie.parse(event.request.headers.get('cookie') || '')[sessionCookieName]
+  const authenticationCookie = cookie.parse(
+    event.request.headers.get('cookie') || ''
+  )[sessionCookieName]
 
   if (authenticationCookie === undefined || authenticationCookie === null) {
     throw new Error('not-authenticated')

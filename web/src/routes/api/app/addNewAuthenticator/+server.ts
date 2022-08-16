@@ -1,14 +1,15 @@
+import { json as json$1 } from '@sveltejs/kit'
 import { PrismaClient } from '@prisma/client'
 
-import { encodeBase64 } from '../../../core/services/encodeBase64'
-import { authenticateUserSession } from '../../../core/services/authenticateUserSession'
-import { createAuthenticatorChallenge } from '../../../modules/register/services/createAuthenticatorChallenge'
-import { relyingParty } from '../../../core/constants/relyingParty'
-import { completeAuthenticatorChallenge } from '../../../modules/register/services/completeAuthenticatorChallenge'
+import { encodeBase64 } from '../../../../core/services/encodeBase64'
+import { authenticateUserSession } from '../../../../core/services/authenticateUserSession'
+import { createAuthenticatorChallenge } from '../../../../modules/register/services/createAuthenticatorChallenge'
+import { relyingParty } from '../../../../core/constants/relyingParty'
+import { completeAuthenticatorChallenge } from '../../../../modules/register/services/completeAuthenticatorChallenge'
 
 import type { RequestHandler } from '@sveltejs/kit'
-import type { RegisterRequest } from '../../../core/@types/api/RegisterRequest'
-import type { AuthenticatorChallenge } from '../../../core/@types/AuthenticatorChallenge'
+import type { RegisterRequest } from '../../../../core/@types/api/RegisterRequest'
+import type { AuthenticatorChallenge } from '../../../../core/@types/AuthenticatorChallenge'
 
 export const GET: RequestHandler = async event => {
   const prisma = new PrismaClient()
@@ -26,21 +27,20 @@ export const GET: RequestHandler = async event => {
       challenge: challenge,
     }
 
-    return {
-      status: 200,
-      body: {
-        message: 'ok',
-        data: payload as any,
-      },
-    }
+    return json$1({
+      message: 'ok',
+      data: payload as any,
+    })
   } catch (e) {
     await prisma.$disconnect()
-    return {
-      status: 401,
-      body: {
+    return json$1(
+      {
         message: 'unauthorized',
       },
-    }
+      {
+        status: 401,
+      }
+    )
   }
 }
 
@@ -57,12 +57,9 @@ export const POST: RequestHandler = async event => {
     )
     await prisma.$disconnect()
 
-    return {
-      status: 200,
-      body: {
-        message: 'created',
-      },
-    }
+    return json$1({
+      message: 'created',
+    })
   } catch (e) {
     let errorMessage: string = (e as any).message
     switch (errorMessage) {
@@ -71,11 +68,13 @@ export const POST: RequestHandler = async event => {
         break
     }
 
-    return {
-      status: 400,
-      body: {
+    return json$1(
+      {
         message: errorMessage,
       },
-    }
+      {
+        status: 400,
+      }
+    )
   }
 }

@@ -1,10 +1,13 @@
 import crypto from 'crypto'
 
-import { encodeBase64 } from "../../../core/services/encodeBase64"
+import { encodeBase64 } from '../../../core/services/encodeBase64'
 
-import type { PrismaClient } from "@prisma/client"
+import type { PrismaClient } from '@prisma/client'
 
-export const createAuthenticatorChallenge = async (prismaClient: PrismaClient, uid: string) => {
+export const createAuthenticatorChallenge = async (
+  prismaClient: PrismaClient,
+  uid: string
+) => {
   // generate random challenge
   const generatedChallenge = encodeBase64(crypto.randomBytes(32))
 

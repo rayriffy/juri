@@ -1,9 +1,10 @@
 <script lang="ts">
+  throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+
   import Authenticators from '../../modules/app/components/authenticators.svelte'
   import Juri from '../../modules/app/components/juri.svelte'
 
   export let error: string
-  export let uid: string
   export let username: string
 </script>
 

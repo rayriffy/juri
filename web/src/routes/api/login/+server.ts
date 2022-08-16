@@ -1,21 +1,22 @@
+import { json as json$1 } from '@sveltejs/kit'
 import crypto from 'crypto'
 import cookie from 'cookie'
 import { PrismaClient } from '@prisma/client'
 
-import { decodeBase64 } from '../../core/services/decodeBase64'
-import { encodeBase64 } from '../../core/services/encodeBase64'
-import { setSession } from '../../core/services/session/set'
-import { decodeLoginAuthData } from '../../modules/login/services/decodeLoginAuthData'
-import { getSha256Hash } from '../../modules/login/services/getSha256Hash'
-import { verifySignature } from '../../modules/login/services/verifySignature'
-import { ASN1toPEM } from '../../modules/login/services/ASN1toPEM'
-import { sessionCookieName } from '../../core/constants/sessionCookieName'
-import { maxSessionAge } from '../../core/constants/maxSessionAge'
+import { decodeBase64 } from '../../../core/services/decodeBase64'
+import { encodeBase64 } from '../../../core/services/encodeBase64'
+import { setSession } from '../../../core/services/session/set'
+import { decodeLoginAuthData } from '../../../modules/login/services/decodeLoginAuthData'
+import { getSha256Hash } from '../../../modules/login/services/getSha256Hash'
+import { verifySignature } from '../../../modules/login/services/verifySignature'
+import { ASN1toPEM } from '../../../modules/login/services/ASN1toPEM'
+import { sessionCookieName } from '../../../core/constants/sessionCookieName'
+import { maxSessionAge } from '../../../core/constants/maxSessionAge'
 
 import type { RequestHandler } from '@sveltejs/kit'
-import type { LoginResponse } from '../../core/@types/api/LoginResponse'
-import type { LoginRequest } from '../../core/@types/api/LoginRequest'
-import type { ClientData } from '../../core/@types/ClientData'
+import type { LoginResponse } from '../../../core/@types/api/LoginResponse'
+import type { LoginRequest } from '../../../core/@types/api/LoginRequest'
+import type { ClientData } from '../../../core/@types/ClientData'
 
 export const GET: RequestHandler = async event => {
   const username = event.url.searchParams.get('username') ?? ''
@@ -41,12 +42,14 @@ export const GET: RequestHandler = async event => {
   // if array is 0, means there's no user registered yet
   if (authenticators.length === 0) {
     await prisma.$disconnect()
-    return {
-      status: 400,
-      body: {
+    return json$1(
+      {
         message: 'this username has not been registered yet',
       },
-    }
+      {
+        status: 400,
+      }
+    )
   }
 
   // generate random challenge
@@ -77,13 +80,10 @@ export const GET: RequestHandler = async event => {
       id: authenticator.credentialId,
     })),
   }
-  return {
-    status: 200,
-    body: {
-      message: 'ok',
-      data: payload as any,
-    },
-  }
+  return json$1({
+    message: 'ok',
+    data: payload as any,
+  })
 }
 
 export const POST: RequestHandler = async event => {
@@ -116,10 +116,10 @@ export const POST: RequestHandler = async event => {
       user: {
         select: {
           uid: true,
-          username: true
-        }
-      }
-    }
+          username: true,
+        },
+      },
+    },
   })
   const challengePromise = await prisma.challenge.findFirst({
     where: {
@@ -145,19 +145,23 @@ export const POST: RequestHandler = async event => {
   await prisma.$disconnect()
 
   if (challenge === null) {
-    return {
-      status: 400,
-      body: {
+    return json$1(
+      {
         message: 'challenge response does not match',
+      },
+      {
+        status: 400,
       }
-    }
+    )
   } else if (authenticator === null) {
-    return {
-      status: 400,
-      body: {
+    return json$1(
+      {
         message: 'authenticator not found',
+      },
+      {
+        status: 400,
       }
-    }
+    )
   }
 
   const decodedAuthData = decodeLoginAuthData(
@@ -173,18 +177,22 @@ export const POST: RequestHandler = async event => {
     decodedAuthData.counterBuf,
     clientDataHash,
   ])
-  const publicKey = ASN1toPEM(Buffer.from(decodeBase64(authenticator.publicKey)))
+  const publicKey = ASN1toPEM(
+    Buffer.from(decodeBase64(authenticator.publicKey))
+  )
   const signature = Buffer.from(decodedRequest.signature)
 
   const verified = verifySignature(signature, signatureBase, publicKey)
 
   if (!verified) {
-    return {
-      status: 400,
-      body: {
-        message: 'signature of authenticator cannot be verified'
+    return json$1(
+      {
+        message: 'signature of authenticator cannot be verified',
+      },
+      {
+        status: 400,
       }
-    }
+    )
   }
 
   // issue user token
@@ -196,19 +204,20 @@ export const POST: RequestHandler = async event => {
   // console.log('generated token')
   // console.log(authenticatedToken)
 
-  return {
-    status: 200,
-    headers: {
-      'Set-Cookie': cookie.serialize(sessionCookieName, authenticatedToken, {
-        path: '/',
-        httpOnly: true,
-        sameSite: 'strict',
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: maxSessionAge,
-      }),
-    },
-    body: {
+  return json$1(
+    {
       message: 'ok',
     },
-  }
+    {
+      headers: {
+        'Set-Cookie': cookie.serialize(sessionCookieName, authenticatedToken, {
+          path: '/',
+          httpOnly: true,
+          sameSite: 'strict',
+          secure: process.env.NODE_ENV === 'production',
+          maxAge: maxSessionAge,
+        }),
+      },
+    }
+  )
 }

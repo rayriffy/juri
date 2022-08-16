@@ -1,17 +1,15 @@
 import { authenticateUserSession } from '../../core/services/authenticateUserSession'
 
-import type { RequestHandler } from '@sveltejs/kit'
+import type { PageServerLoad } from '@sveltejs/kit'
 
-export const GET: RequestHandler = async event => {
+export const load: PageServerLoad = async event => {
   try {
     const session = await authenticateUserSession(event)
 
     return {
-      body: {
-        error: null,
-        uid: session.id,
-        username: session.username,
-      },
+      error: null,
+      uid: session.id,
+      username: session.username,
     }
   } catch (e) {
     let errorMessage: string = (e as any).message
@@ -25,9 +23,7 @@ export const GET: RequestHandler = async event => {
     }
 
     return {
-      body: {
-        error: errorMessage,
-      },
+      error: errorMessage,
     }
   }
 }

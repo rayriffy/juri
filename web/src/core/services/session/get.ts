@@ -15,7 +15,11 @@ export const getSession = async (token: string | undefined) => {
     throw new Error('empty-token')
   }
 
-  const session: DecodedSession = await Iron.unseal(token, IRON_SECRET ?? '', Iron.defaults)
+  const session: DecodedSession = await Iron.unseal(
+    token,
+    IRON_SECRET ?? '',
+    Iron.defaults
+  )
   const expiresAt = session.createdAt + session.maxAge * 1000
 
   // Validate the expiration date of the session

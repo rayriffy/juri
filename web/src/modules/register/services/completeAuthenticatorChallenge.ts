@@ -2,20 +2,26 @@ import cbor from 'cbor'
 
 import { COSEECDHAtoPKCS } from './COSEECDHAtoPKCS'
 import { decodeRegisterAuthData } from './decodeRegisterAuthData'
-import { decodeBase64 } from "../../../core/services/decodeBase64"
-import { encodeBase64 } from "../../../core/services/encodeBase64"
+import { decodeBase64 } from '../../../core/services/decodeBase64'
+import { encodeBase64 } from '../../../core/services/encodeBase64'
 
-import type { PrismaClient } from "@prisma/client"
-import type { ClientData } from "../../../core/@types/ClientData"
+import type { PrismaClient } from '@prisma/client'
+import type { ClientData } from '../../../core/@types/ClientData'
 import type { AttestationCredential } from '../../../core/@types/AttestationCredential'
 
-export const completeAuthenticatorChallenge = async (prismaClient: PrismaClient, clientDataJSON: string, attestationObject: string) => {
+export const completeAuthenticatorChallenge = async (
+  prismaClient: PrismaClient,
+  clientDataJSON: string,
+  attestationObject: string
+) => {
   const clientData: ClientData = JSON.parse(
     Buffer.from(decodeBase64(clientDataJSON)).toString()
   )
 
   // even clientData.challenge is decoded from base64 above, somehow browser navigator sent back as base64url
-  const encodedChallenge = encodeBase64(Buffer.from(clientData.challenge, 'base64url'))
+  const encodedChallenge = encodeBase64(
+    Buffer.from(clientData.challenge, 'base64url')
+  )
 
   // find challenge pair
   const challenge = await prismaClient.challenge.findFirst({
@@ -39,13 +45,13 @@ export const completeAuthenticatorChallenge = async (prismaClient: PrismaClient,
   }
 
   // process attestation into readable authenticator
-  const attestationBuffer = Buffer.from(
-    decodeBase64(attestationObject)
-  )
+  const attestationBuffer = Buffer.from(decodeBase64(attestationObject))
   const ctapMakeCredentialResponse: AttestationCredential =
     cbor.decodeAllSync(attestationBuffer)[0]
 
-  const decodedAuthData = decodeRegisterAuthData(ctapMakeCredentialResponse.authData)
+  const decodedAuthData = decodeRegisterAuthData(
+    ctapMakeCredentialResponse.authData
+  )
   const publicKey = COSEECDHAtoPKCS(decodedAuthData.COSEPublicKey)
 
   const authenticatorPayload = {
@@ -56,21 +62,19 @@ export const completeAuthenticatorChallenge = async (prismaClient: PrismaClient,
   }
 
   // push authenticator to database
-  await Promise.all(
-    [
-      prismaClient.authenticator.create({
-        data: {
-          uid: challenge.user.uid,
-          ...authenticatorPayload,
-        },
-      }),
-      prismaClient.challenge.delete({
-        where: {
-          id: challenge.id,
-        }
-      })
-    ]
-  )
+  await Promise.all([
+    prismaClient.authenticator.create({
+      data: {
+        uid: challenge.user.uid,
+        ...authenticatorPayload,
+      },
+    }),
+    prismaClient.challenge.delete({
+      where: {
+        id: challenge.id,
+      },
+    }),
+  ])
 
   return challenge.user
 }
