@@ -67,6 +67,8 @@ export const GET: RequestHandler = async event => {
     },
   })
 
+  await prisma.$disconnect()
+
   // build payload
   const payload: LoginResponse = {
     challenge: generatedChallenge,
@@ -75,8 +77,6 @@ export const GET: RequestHandler = async event => {
       id: authenticator.credentialId,
     })),
   }
-
-  await prisma.$disconnect()
   return {
     status: 200,
     body: {
