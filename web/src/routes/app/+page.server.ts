@@ -1,6 +1,6 @@
 import { authenticateUserSession } from '../../core/services/authenticateUserSession'
 
-import type { PageServerLoad } from '@sveltejs/kit'
+import type { PageServerLoad } from './$types'
 
 export const load: PageServerLoad = async event => {
   try {

@@ -1,11 +1,13 @@
 <script lang="ts">
-  throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
-
   import Authenticators from '../../modules/app/components/authenticators.svelte'
   import Juri from '../../modules/app/components/juri.svelte'
 
-  export let error: string
-  export let username: string
+  import type { PageData, Errors } from './$types'
+
+  export let data: PageData
+  $: ({ error, username = '' } = data)
+
+  console.log({ error, username })
 </script>
 
 {#if error !== null}

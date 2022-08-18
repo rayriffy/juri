@@ -3,10 +3,10 @@ import cookie from 'cookie'
 import { sessionCookieName } from '../constants/sessionCookieName'
 import { getSession } from './session/get'
 
-import type { RequestEvent } from '@sveltejs/kit'
+import type { ServerLoadEvent } from '@sveltejs/kit'
 
 export const authenticateUserSession = async (
-  event: RequestEvent<Record<string, string>>
+  event: ServerLoadEvent<any>
 ) => {
   // read cookie
   const authenticationCookie = cookie.parse(

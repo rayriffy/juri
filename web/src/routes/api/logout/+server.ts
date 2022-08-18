@@ -5,10 +5,7 @@ import { sessionCookieName } from '../../../core/constants/sessionCookieName'
 import type { RequestHandler } from '@sveltejs/kit'
 
 export const GET: RequestHandler = async event => {
-  throw new Error(
-    '@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292701)'
-  )
-  return {
+  return new Response(undefined, {
     status: 303,
     headers: {
       'Set-Cookie': cookie.serialize(sessionCookieName, '', {
@@ -17,5 +14,5 @@ export const GET: RequestHandler = async event => {
       }),
       location: '/',
     },
-  }
+  })
 }
