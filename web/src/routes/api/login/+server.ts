@@ -161,6 +161,15 @@ export const POST: RequestHandler = async event => {
         status: 400,
       }
     )
+  } else if (authenticator.uid !== challenge.uid) {
+    return json$1(
+      {
+        message: 'authenticator and challenge do not match',
+      },
+      {
+        status: 400,
+      }
+    )
   }
 
   const decodedAuthData = decodeLoginAuthData(
