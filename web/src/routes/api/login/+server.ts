@@ -93,7 +93,6 @@ export const POST: RequestHandler = async event => {
     authenticatorData: decodeBase64(response.authenticatorData),
     clientDataJSON: decodeBase64(response.clientDataJSON),
     signature: decodeBase64(response.signature),
-    userHandle: decodeBase64(response.userHandle),
   }
 
   const clientData: ClientData = JSON.parse(

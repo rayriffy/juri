@@ -4,6 +4,5 @@ export interface LoginRequest {
     authenticatorData: string
     clientDataJSON: string
     signature: string
-    userHandle: string
   }
 }

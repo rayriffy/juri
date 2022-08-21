@@ -53,7 +53,6 @@
             (credential.response as any).authenticatorData
           ),
           signature: encodeBase64((credential.response as any).signature),
-          userHandle: encodeBase64((credential.response as any).userHandle),
         },
       }
 
