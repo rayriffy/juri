@@ -10,7 +10,7 @@
 <header
   class="max-w-xl mx-auto py-4 px-6 mb-4 sm:mt-4 text-white bg-gradient-to-l from-sky-400 to-blue-500 sm:rounded-2xl flex justify-between items-center"
 >
-  <h1 class="font-bold text-xl">Minori</h1>
+  <h1 class="font-bold text-xl">Juri</h1>
 </header>
 
 <main class="max-w-xl mx-auto py-4 px-4 sm:px-0">

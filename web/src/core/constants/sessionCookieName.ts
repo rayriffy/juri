@@ -1,1 +1,1 @@
-export const sessionCookieName = 'minoriAuth'
+export const sessionCookieName = 'juriAuth'

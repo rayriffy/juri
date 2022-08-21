@@ -3,5 +3,5 @@ export const relyingParty = {
   id:
     process.env.NODE_ENV === 'development'
       ? 'localhost'
-      : 'minori.rayriffy.com',
+      : 'juri.rayriffy.com',
 }
