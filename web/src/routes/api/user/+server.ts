@@ -10,6 +10,7 @@ export const POST: RequestHandler = async event => {
     const session = await authenticateUserSession(token)
 
     return json({
+      success: true,
       user: {
         id: session.id,
         username: session.username,
@@ -17,6 +18,7 @@ export const POST: RequestHandler = async event => {
     })
   } catch (e) {
     return json({
+      success: false,
       user: null
     })
   }
