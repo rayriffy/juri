@@ -114,6 +114,7 @@ export const POST: RequestHandler = async event => {
     return json$1(
       {
         message: 'ok',
+        data: authenticatedToken,
       },
       {
         headers: {
