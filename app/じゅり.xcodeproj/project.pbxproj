@@ -11,19 +11,23 @@
 		F21AE9FF28A3A764008EBF6B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21AE9FE28A3A764008EBF6B /* ContentView.swift */; };
 		F21AEA0128A3A765008EBF6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F21AEA0028A3A765008EBF6B /* Assets.xcassets */; };
 		F21AEA0428A3A765008EBF6B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F21AEA0328A3A765008EBF6B /* Preview Assets.xcassets */; };
+		F22C261528B2B603003CB880 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = F22C261428B2B603003CB880 /* SwiftyJSON */; };
 		F280378128A5C0F4001B194B /* Juri.swift in Sources */ = {isa = PBXBuildFile; fileRef = F280378028A5C0F4001B194B /* Juri.swift */; };
 		F280378728A5C423001B194B /* SwiftUIGIF in Frameworks */ = {isa = PBXBuildFile; productRef = F280378628A5C423001B194B /* SwiftUIGIF */; };
 		F280378928A5C7FD001B194B /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = F280378828A5C7FD001B194B /* Header.swift */; };
 		F280378C28A5CE03001B194B /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F280378B28A5CE03001B194B /* LocalStorage.swift */; };
 		F280378E28A5CF59001B194B /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F280378D28A5CF59001B194B /* UserSession.swift */; };
 		F280379128A5CF92001B194B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F280379028A5CF92001B194B /* User.swift */; };
+		F28D504D28B22D1800EC5E5D /* LoginGetResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28D504C28B22D1800EC5E5D /* LoginGetResponse.swift */; };
+		F28D504F28B22EA200EC5E5D /* PasskeysHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28D504E28B22EA200EC5E5D /* PasskeysHandler.swift */; };
+		F28D505128B22ECD00EC5E5D /* AllowedCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28D505028B22ECD00EC5E5D /* AllowedCredential.swift */; };
 		F2B090F828A6722C00EDB873 /* APIResponseWithData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B090F728A6722C00EDB873 /* APIResponseWithData.swift */; };
 		F2B090FA28A6733F00EDB873 /* APIResponseWithoutData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B090F928A6733F00EDB873 /* APIResponseWithoutData.swift */; };
 		F2B090FD28A673BE00EDB873 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F2B090FC28A673BE00EDB873 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F21AE9F928A3A764008EBF6B /* みのり.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "みのり.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F21AE9F928A3A764008EBF6B /* じゅり.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "じゅり.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F21AE9FC28A3A764008EBF6B /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		F21AE9FE28A3A764008EBF6B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F21AEA0028A3A765008EBF6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -33,7 +37,10 @@
 		F280378B28A5CE03001B194B /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		F280378D28A5CF59001B194B /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		F280379028A5CF92001B194B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		F2989ED028A3AD4F008A8163 /* みのり.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "みのり.entitlements"; sourceTree = "<group>"; };
+		F28D504C28B22D1800EC5E5D /* LoginGetResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginGetResponse.swift; sourceTree = "<group>"; };
+		F28D504E28B22EA200EC5E5D /* PasskeysHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasskeysHandler.swift; sourceTree = "<group>"; };
+		F28D505028B22ECD00EC5E5D /* AllowedCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllowedCredential.swift; sourceTree = "<group>"; };
+		F2989ED028A3AD4F008A8163 /* じゅり.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "じゅり.entitlements"; sourceTree = "<group>"; };
 		F2B090F728A6722C00EDB873 /* APIResponseWithData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponseWithData.swift; sourceTree = "<group>"; };
 		F2B090F928A6733F00EDB873 /* APIResponseWithoutData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponseWithoutData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -43,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F22C261528B2B603003CB880 /* SwiftyJSON in Frameworks */,
 				F280378728A5C423001B194B /* SwiftUIGIF in Frameworks */,
 				F2B090FD28A673BE00EDB873 /* Alamofire in Frameworks */,
 			);
@@ -54,7 +62,7 @@
 		F21AE9F028A3A764008EBF6B = {
 			isa = PBXGroup;
 			children = (
-				F21AE9FB28A3A764008EBF6B /* みのり */,
+				F21AE9FB28A3A764008EBF6B /* じゅり */,
 				F21AE9FA28A3A764008EBF6B /* Products */,
 			);
 			indentWidth = 2;
@@ -64,25 +72,26 @@
 		F21AE9FA28A3A764008EBF6B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F21AE9F928A3A764008EBF6B /* みのり.app */,
+				F21AE9F928A3A764008EBF6B /* じゅり.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F21AE9FB28A3A764008EBF6B /* みのり */ = {
+		F21AE9FB28A3A764008EBF6B /* じゅり */ = {
 			isa = PBXGroup;
 			children = (
 				F2B090FE28A678B600EDB873 /* Style */,
 				F280378F28A5CF86001B194B /* Codable */,
 				F280378A28A5CDF9001B194B /* Data */,
 				F280377F28A5C0EA001B194B /* Components */,
-				F2989ED028A3AD4F008A8163 /* みのり.entitlements */,
+				F2989ED028A3AD4F008A8163 /* じゅり.entitlements */,
 				F21AE9FC28A3A764008EBF6B /* App.swift */,
 				F21AE9FE28A3A764008EBF6B /* ContentView.swift */,
 				F21AEA0028A3A765008EBF6B /* Assets.xcassets */,
 				F21AEA0228A3A765008EBF6B /* Preview Content */,
 			);
-			path = "みのり";
+			name = "じゅり";
+			path = "じゅり";
 			sourceTree = "<group>";
 		};
 		F21AEA0228A3A765008EBF6B /* Preview Content */ = {
@@ -107,6 +116,7 @@
 			children = (
 				F280378B28A5CE03001B194B /* LocalStorage.swift */,
 				F280378D28A5CF59001B194B /* UserSession.swift */,
+				F28D504E28B22EA200EC5E5D /* PasskeysHandler.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -117,6 +127,8 @@
 				F280379028A5CF92001B194B /* User.swift */,
 				F2B090F728A6722C00EDB873 /* APIResponseWithData.swift */,
 				F2B090F928A6733F00EDB873 /* APIResponseWithoutData.swift */,
+				F28D504C28B22D1800EC5E5D /* LoginGetResponse.swift */,
+				F28D505028B22ECD00EC5E5D /* AllowedCredential.swift */,
 			);
 			path = Codable;
 			sourceTree = "<group>";
@@ -131,9 +143,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F21AE9F828A3A764008EBF6B /* みのり */ = {
+		F21AE9F828A3A764008EBF6B /* じゅり */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F21AEA0728A3A765008EBF6B /* Build configuration list for PBXNativeTarget "みのり" */;
+			buildConfigurationList = F21AEA0728A3A765008EBF6B /* Build configuration list for PBXNativeTarget "じゅり" */;
 			buildPhases = (
 				F21AE9F528A3A764008EBF6B /* Sources */,
 				F21AE9F628A3A764008EBF6B /* Frameworks */,
@@ -143,13 +155,14 @@
 			);
 			dependencies = (
 			);
-			name = "みのり";
+			name = "じゅり";
 			packageProductDependencies = (
 				F280378628A5C423001B194B /* SwiftUIGIF */,
 				F2B090FC28A673BE00EDB873 /* Alamofire */,
+				F22C261428B2B603003CB880 /* SwiftyJSON */,
 			);
 			productName = "みのり";
-			productReference = F21AE9F928A3A764008EBF6B /* みのり.app */;
+			productReference = F21AE9F928A3A764008EBF6B /* じゅり.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -167,7 +180,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F21AE9F428A3A764008EBF6B /* Build configuration list for PBXProject "みのり" */;
+			buildConfigurationList = F21AE9F428A3A764008EBF6B /* Build configuration list for PBXProject "じゅり" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -179,12 +192,13 @@
 			packageReferences = (
 				F280378528A5C423001B194B /* XCRemoteSwiftPackageReference "swiftui-gif" */,
 				F2B090FB28A673BE00EDB873 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				F22C261328B2B603003CB880 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = F21AE9FA28A3A764008EBF6B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F21AE9F828A3A764008EBF6B /* みのり */,
+				F21AE9F828A3A764008EBF6B /* じゅり */,
 			);
 		};
 /* End PBXProject section */
@@ -206,9 +220,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F28D504F28B22EA200EC5E5D /* PasskeysHandler.swift in Sources */,
 				F280378928A5C7FD001B194B /* Header.swift in Sources */,
 				F280378C28A5CE03001B194B /* LocalStorage.swift in Sources */,
 				F280378128A5C0F4001B194B /* Juri.swift in Sources */,
+				F28D504D28B22D1800EC5E5D /* LoginGetResponse.swift in Sources */,
+				F28D505128B22ECD00EC5E5D /* AllowedCredential.swift in Sources */,
 				F280378E28A5CF59001B194B /* UserSession.swift in Sources */,
 				F2B090FA28A6733F00EDB873 /* APIResponseWithoutData.swift in Sources */,
 				F21AE9FF28A3A764008EBF6B /* ContentView.swift in Sources */,
@@ -340,13 +357,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "みのり/みのり.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "じゅり/じゅり.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"みのり/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"じゅり/Preview Content\"";
 				DEVELOPMENT_TEAM = 3Q5KKY45ZN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "じゅり";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -358,7 +376,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rayriffy.minori;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rayriffy.juri;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -375,13 +393,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "みのり/みのり.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "じゅり/じゅり.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"みのり/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"じゅり/Preview Content\"";
 				DEVELOPMENT_TEAM = 3Q5KKY45ZN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "じゅり";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -393,7 +412,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rayriffy.minori;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rayriffy.juri;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -408,7 +427,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F21AE9F428A3A764008EBF6B /* Build configuration list for PBXProject "みのり" */ = {
+		F21AE9F428A3A764008EBF6B /* Build configuration list for PBXProject "じゅり" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F21AEA0528A3A765008EBF6B /* Debug */,
@@ -417,7 +436,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F21AEA0728A3A765008EBF6B /* Build configuration list for PBXNativeTarget "みのり" */ = {
+		F21AEA0728A3A765008EBF6B /* Build configuration list for PBXNativeTarget "じゅり" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F21AEA0828A3A765008EBF6B /* Debug */,
@@ -429,6 +448,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		F22C261328B2B603003CB880 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		F280378528A5C423001B194B /* XCRemoteSwiftPackageReference "swiftui-gif" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/globulus/swiftui-gif.git";
@@ -448,6 +475,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F22C261428B2B603003CB880 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F22C261328B2B603003CB880 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
 		F280378628A5C423001B194B /* SwiftUIGIF */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F280378528A5C423001B194B /* XCRemoteSwiftPackageReference "swiftui-gif" */;
