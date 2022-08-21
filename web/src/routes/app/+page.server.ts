@@ -1,10 +1,17 @@
+import cookie from 'cookie'
+
+import { sessionCookieName } from '../../core/constants/sessionCookieName'
 import { authenticateUserSession } from '../../core/services/authenticateUserSession'
 
 import type { PageServerLoad } from './$types'
 
 export const load: PageServerLoad = async event => {
   try {
-    const session = await authenticateUserSession(event)
+    const authenticationCookie = cookie.parse(
+      event.request.headers.get('cookie') || ''
+    )[sessionCookieName]
+
+    const session = await authenticateUserSession(authenticationCookie)
 
     return {
       error: null,
