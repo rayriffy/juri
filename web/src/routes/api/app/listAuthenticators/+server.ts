@@ -1,15 +1,19 @@
 import { json } from '@sveltejs/kit'
 import { PrismaClient } from '@prisma/client'
+import cookie from 'cookie'
 
 import { authenticateUserSession } from '../../../../core/services/authenticateUserSession'
-import { decodeBase64 } from '../../../../core/services/decodeBase64'
+import { sessionCookieName } from '../../../../core/constants/sessionCookieName'
 
 import type { RequestHandler } from '@sveltejs/kit'
 import type { Authenticator } from '../../../../modules/app/@types/Authenticator'
 
 export const GET: RequestHandler = async event => {
   try {
-    const session = await authenticateUserSession(event)
+    const authenticationCookie = cookie.parse(
+      event.request.headers.get('cookie') || ''
+    )[sessionCookieName]
+    const session = await authenticateUserSession(authenticationCookie)
 
     const prisma = new PrismaClient()
     const authenticators = await prisma.authenticator.findMany({
