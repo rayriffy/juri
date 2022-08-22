@@ -1,5 +1,8 @@
 import { json as json$1 } from '@sveltejs/kit'
+import cookie from 'cookie'
+
 import { authenticateUserSession } from '../../../../core/services/authenticateUserSession'
+import { sessionCookieName } from '../../../../core/constants/sessionCookieName'
 
 import type { RequestHandler } from '@sveltejs/kit'
 import { PrismaClient } from '@prisma/client'
@@ -8,7 +11,10 @@ export const DELETE: RequestHandler = async event => {
   const request = await event.request.json()
 
   try {
-    const session = await authenticateUserSession(event)
+    const authenticationCookie = cookie.parse(
+      event.request.headers.get('cookie') || ''
+    )[sessionCookieName]
+    const session = await authenticateUserSession(authenticationCookie)
 
     const prisma = new PrismaClient()
 

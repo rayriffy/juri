@@ -1,11 +1,13 @@
 import { json as json$1 } from '@sveltejs/kit'
 import { PrismaClient } from '@prisma/client'
+import cookie from 'cookie'
 
 import { encodeBase64 } from '../../../../core/services/encodeBase64'
 import { authenticateUserSession } from '../../../../core/services/authenticateUserSession'
 import { createAuthenticatorChallenge } from '../../../../modules/register/services/createAuthenticatorChallenge'
 import { relyingParty } from '../../../../core/constants/relyingParty'
 import { completeAuthenticatorChallenge } from '../../../../modules/register/services/completeAuthenticatorChallenge'
+import { sessionCookieName } from '../../../../core/constants/sessionCookieName'
 
 import type { RequestHandler } from '@sveltejs/kit'
 import type { RegisterRequest } from '../../../../core/@types/api/RegisterRequest'
@@ -15,7 +17,10 @@ export const GET: RequestHandler = async event => {
   const prisma = new PrismaClient()
 
   try {
-    const session = await authenticateUserSession(event)
+    const authenticationCookie = cookie.parse(
+      event.request.headers.get('cookie') || ''
+    )[sessionCookieName]
+    const session = await authenticateUserSession(authenticationCookie)
 
     const challenge = await createAuthenticatorChallenge(prisma, session.id)
     await prisma.$disconnect()
