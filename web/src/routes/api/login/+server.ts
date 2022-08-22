@@ -209,9 +209,6 @@ export const POST: RequestHandler = async event => {
     username: authenticator.user.username,
   })
 
-  // console.log('generated token')
-  // console.log(authenticatedToken)
-
   return json$1(
     {
       message: 'ok',

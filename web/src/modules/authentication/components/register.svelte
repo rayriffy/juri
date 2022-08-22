@@ -14,11 +14,9 @@
       process = true
       error = null
 
-      console.log('register')
-
       const credential = await createPublicKeyCredential(username)
 
-      console.log('credential', credential)
+      console.log('[riffy] created credential: ', credential)
 
       if (credential === null) {
         throw Error('credential creation failed')

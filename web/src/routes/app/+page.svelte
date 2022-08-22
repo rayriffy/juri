@@ -6,8 +6,6 @@
 
   export let data: PageData
   $: ({ error, username = '' } = data)
-
-  console.log({ error, username })
 </script>
 
 {#if error !== null}

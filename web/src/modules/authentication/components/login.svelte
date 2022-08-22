@@ -16,8 +16,6 @@
       process = true
       error = null
 
-      console.log('login')
-
       // get all possible authenticator
       let urlParams = new URLSearchParams({
         username,
@@ -43,7 +41,7 @@
         throw Error('failed to obtain credential')
       }
 
-      console.log(credential)
+      console.log('[riffy] recieved credential', credential)
 
       const loginPayload: LoginRequest = {
         id: credential.id,
@@ -56,7 +54,7 @@
         },
       }
 
-      console.log(loginPayload)
+      console.log('[riffy] login payload:', loginPayload)
 
       await simplifiedFetch('/api/login', {
         method: 'POST',

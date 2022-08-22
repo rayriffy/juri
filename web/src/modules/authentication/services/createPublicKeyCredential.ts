@@ -21,7 +21,7 @@ export const createPublicKeyCredential = async (
     },
   })
 
-  console.log('preCredential', preCredential)
+  console.log('[riffy] challenge request: ', preCredential)
 
   // build option
   const publicKeyCredentialCreationOptions: PublicKeyCredentialCreationOptions =
@@ -55,7 +55,7 @@ export const createPublicKeyCredential = async (
     }
 
   console.log(
-    'publicKeyCredentialCreationOptions',
+    '[riffy] built pubKey credential option',
     publicKeyCredentialCreationOptions
   )
 

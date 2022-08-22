@@ -18,6 +18,8 @@ export const completeAuthenticatorChallenge = async (
     Buffer.from(decodeBase64(clientDataJSON)).toString()
   )
 
+  console.log('[riffy] decoded client data JSON: ', clientData)
+
   // even clientData.challenge is decoded from base64 above, somehow browser navigator sent back as base64url
   const encodedChallenge = encodeBase64(
     Buffer.from(clientData.challenge, 'base64url')
@@ -53,6 +55,9 @@ export const completeAuthenticatorChallenge = async (
     ctapMakeCredentialResponse.authData
   )
   const publicKey = COSEECDHAtoPKCS(decodedAuthData.COSEPublicKey)
+
+  console.log('[riffy] decoded credential from attestation: ', ctapMakeCredentialResponse)
+  console.log('[riffy] decoded auth data: ', decodedAuthData)
 
   const authenticatorPayload = {
     fmt: ctapMakeCredentialResponse.fmt,
