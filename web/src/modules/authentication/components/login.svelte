@@ -41,7 +41,8 @@
         throw Error('failed to obtain credential')
       }
 
-      console.log('[riffy] recieved credential', credential)
+      console.log('[riffy] recieved credential: ', credential)
+      console.log('[riffy] challenge response: ', credential.response)
 
       const loginPayload: LoginRequest = {
         id: credential.id,
@@ -54,7 +55,7 @@
         },
       }
 
-      console.log('[riffy] login payload:', loginPayload)
+      console.log('[riffy] login payload: ', loginPayload)
 
       await simplifiedFetch('/api/login', {
         method: 'POST',

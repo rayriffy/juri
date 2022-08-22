@@ -17,6 +17,7 @@
       const credential = await createPublicKeyCredential(username)
 
       console.log('[riffy] created credential: ', credential)
+      console.log('[riffy] challenge response: ', credential?.response)
 
       if (credential === null) {
         throw Error('credential creation failed')
