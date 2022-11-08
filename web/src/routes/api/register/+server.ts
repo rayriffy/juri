@@ -59,6 +59,7 @@ export const GET: RequestHandler = async event => {
       data: {
         uid: generatedUserId,
         username: username.toLowerCase(),
+        lastCalledAddress: event.clientAddress,
       },
     })
   }
@@ -101,6 +102,7 @@ export const POST: RequestHandler = async event => {
       },
       data: {
         registered: true,
+        lastCalledAddress: event.clientAddress,
       },
     })
     await prisma.$disconnect()
