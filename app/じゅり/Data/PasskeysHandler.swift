@@ -10,7 +10,7 @@ import AuthenticationServices
 import Alamofire
 
 class PasskeysHandler: NSObject, ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
-  let domain = "juri.rayriffy.com"
+  let domain = "polyset.xyz"
   var authenticationAnchor: ASPresentationAnchor?
   var isPerformingModalReqest = false
   
@@ -34,6 +34,9 @@ class PasskeysHandler: NSObject, ASAuthorizationControllerPresentationContextPro
     switch authorization.credential {
     case let credentialRegistration as ASAuthorizationPlatformPublicKeyCredentialRegistration:
       print("credential registered: \(credentialRegistration)")
+      sendRegistrationResponse(params: credentialRegistration) {
+        self.onAuthenticated?()
+                  }
       break
 
     /**
@@ -52,7 +55,7 @@ class PasskeysHandler: NSObject, ASAuthorizationControllerPresentationContextPro
       ]
       
       AF.request(
-        "https://juri.rayriffy.com/api/login",
+        "https://polyset.xyz:5173/api/login",
         method: .post,
         parameters: payload,
         encoding: JSONEncoding.default
@@ -74,7 +77,34 @@ class PasskeysHandler: NSObject, ASAuthorizationControllerPresentationContextPro
       print("unknown authentication method")
     }
   }
+  func sendRegistrationResponse(params: ASAuthorizationPlatformPublicKeyCredentialRegistration, completionHandler: @escaping () -> Void) {
+          let response = [
+            "attestationObject": params.rawAttestationObject?.base64EncodedString(),
+            "clientDataJSON": params.rawClientDataJSON.base64EncodedString()
+          ]
+          let parameters: Parameters = [
+            "id": params.credentialID.base64EncodedString(),
+            "rawId": params.credentialID.base64EncodedString(),
+              "type": "public-key",
+              "response": response
+          ]
+          AF.request("https://polyset.xyz:5173/api/register", method: .post, parameters: parameters, encoding: JSONEncoding.default).response { response in
+              if (response.response?.statusCode == 200) {
+                  completionHandler()
+              } else {
+                  print("Error: \(response.error?.errorDescription ?? "unknown error")")
+              }
+          }
+      }
   
+  func registrationRequest(authorizationRequest: [ASAuthorizationRequest]){
+    let authenticationController = ASAuthorizationController(
+      authorizationRequests: authorizationRequest
+    )
+    authenticationController.delegate = self
+    authenticationController.presentationContextProvider = self
+    authenticationController.performRequests()
+  }
   func getCredentials(allowedCredentials: [AllowedCredential], challenge: String) {
     let publicKeyCredentialProvider = ASAuthorizationPlatformPublicKeyCredentialProvider(
       relyingPartyIdentifier: domain
@@ -92,4 +122,21 @@ class PasskeysHandler: NSObject, ASAuthorizationControllerPresentationContextPro
     authenticationController.presentationContextProvider = self
     authenticationController.performRequests()
   }
+}
+extension String {
+    func decodeBase64Url() -> Data? {
+        var base64 = self
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        if base64.count % 4 != 0 {
+            base64.append(String(repeating: "=", count: 4 - base64.count % 4))
+        }
+        return Data(base64Encoded: base64)
+    }
+}
+
+extension Data {
+    func toBase64Url() -> String {
+        return self.base64EncodedString().replacingOccurrences(of: "+", with: "-").replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "=", with: "")
+    }
 }
