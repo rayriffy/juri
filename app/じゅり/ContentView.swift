@@ -40,6 +40,17 @@ struct ContentView: View {
             .foregroundColor(.white)
             .bold()
             .cornerRadius(8)
+          Button("Register") {
+            Task {
+              await userSession.registerWith(userName: inputUsername)
+            }
+          }
+            .padding(.vertical, 10)
+            .padding(.horizontal, 18)
+            .background(Color(red: 0.15, green: 0.39, blue: 0.92))
+            .foregroundColor(.white)
+            .bold()
+            .cornerRadius(8)
         }
       } else {
         Text("Hello!").font(.system(size: 32)).bold()
