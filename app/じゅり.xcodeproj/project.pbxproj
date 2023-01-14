@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C0F0077D296EDC6200B027D6 /* RegisterGetResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F0077C296EDC6200B027D6 /* RegisterGetResponse.swift */; };
 		F21AE9FD28A3A764008EBF6B /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21AE9FC28A3A764008EBF6B /* App.swift */; };
 		F21AE9FF28A3A764008EBF6B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21AE9FE28A3A764008EBF6B /* ContentView.swift */; };
 		F21AEA0128A3A765008EBF6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F21AEA0028A3A765008EBF6B /* Assets.xcassets */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C0F0077C296EDC6200B027D6 /* RegisterGetResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterGetResponse.swift; sourceTree = "<group>"; };
 		F21AE9F928A3A764008EBF6B /* じゅり.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "じゅり.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F21AE9FC28A3A764008EBF6B /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		F21AE9FE28A3A764008EBF6B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				F2B090F728A6722C00EDB873 /* APIResponseWithData.swift */,
 				F2B090F928A6733F00EDB873 /* APIResponseWithoutData.swift */,
 				F28D504C28B22D1800EC5E5D /* LoginGetResponse.swift */,
+				C0F0077C296EDC6200B027D6 /* RegisterGetResponse.swift */,
 				F28D505028B22ECD00EC5E5D /* AllowedCredential.swift */,
 			);
 			path = Codable;
@@ -230,6 +233,7 @@
 				F2B090FA28A6733F00EDB873 /* APIResponseWithoutData.swift in Sources */,
 				F21AE9FF28A3A764008EBF6B /* ContentView.swift in Sources */,
 				F2B090F828A6722C00EDB873 /* APIResponseWithData.swift in Sources */,
+				C0F0077D296EDC6200B027D6 /* RegisterGetResponse.swift in Sources */,
 				F21AE9FD28A3A764008EBF6B /* App.swift in Sources */,
 				F280379128A5CF92001B194B /* User.swift in Sources */,
 			);

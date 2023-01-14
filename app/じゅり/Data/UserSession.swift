@@ -14,7 +14,7 @@ class UserSession: ObservableObject {
   @Published public var initialize: Bool = true
   @Published public var user: User? = nil
   
-  @Published public var isAuthenticating: Bool = false
+  @MainActor @Published public var isAuthenticating: Bool = false
   @Published public var activeAuthenticationToken: String = ""
   
   private var passkeysHandler: PasskeysHandler?
@@ -23,7 +23,9 @@ class UserSession: ObservableObject {
     self.passkeysHandler = PasskeysHandler(
       onAuthenticated: {
         self.syncAuthenticationToken()
-        self.syncUserProfile()
+        Task {
+          await self.syncUserProfile()
+        }
       },
       onError: { error in
         print(error)
@@ -31,16 +33,19 @@ class UserSession: ObservableObject {
     )
 
     syncAuthenticationToken()
-    syncUserProfile()
+    Task {
+     await  syncUserProfile()
+    }
   }
 
   func syncAuthenticationToken () {
     self.activeAuthenticationToken = LocalStorage.authTokenValue
   }
   
-  func syncUserProfile() {
-    self.isAuthenticating = true
-    
+  func syncUserProfile() async {
+    await MainActor.run {
+      self.isAuthenticating = true
+    }
     print("sync user profile")
 
     AF
@@ -65,18 +70,55 @@ class UserSession: ObservableObject {
               username: json["username"].stringValue
             )
           }
-
-          self.isAuthenticating = false
+          Task {
+            await MainActor.run {
+              self.isAuthenticating = false
+            }
+          }
           self.initialize = false
           break
         case .failure(let error):
-          self.isAuthenticating = false
+          print(error)
+          Task {
+            await MainActor.run {
+              self.isAuthenticating = false
+            }
+          }
+          
           self.initialize = false
           break
         }
       }
   }
+  func getRegistrationOptions(username: String, completionHandler: @escaping (APIResponseWithData<RegisterGetResponse>) -> Void) {
+    AF
+      .request("https://juri.rayriffy.com/api/register?username=\(username)", method: .get)
+      .responseDecodable(of: APIResponseWithData<RegisterGetResponse>.self) { response in
+      switch response.result {
+      case .success(let registerResponse):
+        completionHandler(registerResponse)
+      case .failure:
+        print("Error: \(response.error?.errorDescription ?? "unknown error")")
+        
+        
+        
+      }
+    }
+  }
   
+  func registerWith(userName: String) async {
+    let publicKeyCredentialProvider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: "polyset.xyz")
+    getRegistrationOptions(username: userName) { registerGetResponse in
+      let challenge = Data(base64Encoded: registerGetResponse.data.challenge)
+      let userID = Data(base64Encoded: registerGetResponse.data.uid)
+      let registrationRequest = publicKeyCredentialProvider.createCredentialRegistrationRequest(challenge: challenge!,
+                                                                                                name: userName, userID: userID!)
+      self.passkeysHandler!.registrationRequest(authorizationRequest: [registrationRequest])
+      
+
+      
+    }
+  }
   func logout () {
     LocalStorage.authTokenValue = ""
     self.activeAuthenticationToken = ""
@@ -84,8 +126,9 @@ class UserSession: ObservableObject {
   }
   
   func login (username: String) async {
-    self.isAuthenticating = true
-
+    await MainActor.run {
+      self.isAuthenticating = true
+    }
     AF
       .request("https://juri.rayriffy.com/api/login", parameters: ["username": username])
       .responseDecodable(of: APIResponseWithData<LoginGetResponse>.self) { response in
@@ -98,7 +141,12 @@ class UserSession: ObservableObject {
           break
         case .failure(let error):
           print("failed to fetch GET /api/login: \(error)")
-          self.isAuthenticating = false
+          Task {
+            
+            await MainActor.run {
+              self.isAuthenticating = false
+            }
+          }
           break
         }
       }
