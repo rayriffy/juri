@@ -50,7 +50,7 @@ class UserSession: ObservableObject {
 
     AF
       .request(
-        "https://polyset.xyz:5173/api/user",
+        "https://juri.rayriffy.com/api/user",
         method: .post,
         parameters: [
           "token": self.activeAuthenticationToken
@@ -92,7 +92,7 @@ class UserSession: ObservableObject {
   }
   func getRegistrationOptions(username: String, completionHandler: @escaping (APIResponseWithData<RegisterGetResponse>) -> Void) {
     AF
-      .request("https://polyset.xyz:5173/api/register?username=\(username)", method: .get)
+      .request("https://juri.rayriffy.com/api/register?username=\(username)", method: .get)
       .responseDecodable(of: APIResponseWithData<RegisterGetResponse>.self) { response in
       switch response.result {
       case .success(let registerResponse):
@@ -130,7 +130,7 @@ class UserSession: ObservableObject {
       self.isAuthenticating = true
     }
     AF
-      .request("https://polyset.xyz:5173/api/login", parameters: ["username": username])
+      .request("https://juri.rayriffy.com/api/login", parameters: ["username": username])
       .responseDecodable(of: APIResponseWithData<LoginGetResponse>.self) { response in
         switch response.result {
         case .success(let loginGetResponse):

@@ -10,7 +10,7 @@ import AuthenticationServices
 import Alamofire
 
 class PasskeysHandler: NSObject, ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
-  let domain = "polyset.xyz"
+  let domain = "juri.rayriffy.com"
   var authenticationAnchor: ASPresentationAnchor?
   var isPerformingModalReqest = false
   
@@ -55,7 +55,7 @@ class PasskeysHandler: NSObject, ASAuthorizationControllerPresentationContextPro
       ]
       
       AF.request(
-        "https://polyset.xyz:5173/api/login",
+        "https://juri.rayriffy.com/api/login",
         method: .post,
         parameters: payload,
         encoding: JSONEncoding.default
