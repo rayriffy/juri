@@ -1,6 +1,5 @@
 import Iron from '@hapi/iron'
-
-const { IRON_SECRET } = process.env
+import { env } from '$env/dynamic/private'
 
 interface DecodedSession {
   id: string
@@ -17,7 +16,7 @@ export const getSession = async (token: string | undefined) => {
 
   const session: DecodedSession = await Iron.unseal(
     token,
-    IRON_SECRET ?? '',
+    env.IRON_SECRET ?? '',
     Iron.defaults
   )
   const expiresAt = session.createdAt + session.maxAge * 1000

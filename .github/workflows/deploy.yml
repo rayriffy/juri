@@ -1,0 +1,25 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: rayriffy
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ./.actions/build-and-push
+        with:
+          target_image: ghcr.io/rayriffy/juri-runtime
+          deploys_user: ${{ secrets.DEPLOYS_AUTH_USER }}
+          deploys_pass: ${{ secrets.DEPLOYS_AUTH_PASS }}
