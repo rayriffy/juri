@@ -12,7 +12,7 @@ FROM node:18-slim as deps-prod
 WORKDIR /app
 
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN yarn global add pnpm && pnpm -r i --frozen-lockfile --prod
+RUN yarn global add pnpm && pnpm -r i --frozen-lockfile --prod && pnpm prisma:generate
 
 # ? -------------------------
 
