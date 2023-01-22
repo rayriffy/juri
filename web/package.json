@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "env-cmd vite dev",
+    "dev": "vite dev",
     "build": "vite build",
     "vercel-build": "concurrently \"prisma migrate deploy\" \"prisma generate\" && vite build",
     "package": "svelte-kit package",
@@ -16,9 +16,11 @@
     "prisma:commit": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy"
   },
+  "dependencies": {
+    "@prisma/client": "^4.9.0"
+  },
   "devDependencies": {
     "@hapi/iron": "^7.0.0",
-    "@prisma/client": "^4.9.0",
     "@sveltejs/adapter-node": "^1.1.4",
     "@sveltejs/kit": "1.2.2",
     "@tailwindcss/forms": "^0.5.3",
@@ -29,7 +31,6 @@
     "cbor": "^8.1.0",
     "concurrently": "^7.6.0",
     "cookie": "^0.5.0",
-    "env-cmd": "^10.1.0",
     "nanoid": "^4.0.0",
     "postcss": "^8.4.21",
     "prettier": "^2.8.3",
