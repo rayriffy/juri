@@ -30,7 +30,7 @@ RUN yarn global add pnpm && pnpm prisma:generate && pnpm build
 
 # ? -------------------------
 
-FROM gcr.io/distroless/nodejs:18 as runner
+FROM node:18-slim as runner
 
 ENV NODE_ENV production
 
