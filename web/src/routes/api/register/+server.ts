@@ -1,8 +1,8 @@
 import { json as json$1 } from '@sveltejs/kit'
 import cookie from 'cookie'
 import { nanoid } from 'nanoid'
-import { PrismaClient } from '@prisma/client'
 
+import { prisma } from '../../../context/prisma'
 import { encodeBase64 } from '../../../core/services/encodeBase64'
 import { setSession } from '../../../core/services/session/set'
 import { sessionCookieName } from '../../../core/constants/sessionCookieName'
@@ -32,7 +32,6 @@ export const GET: RequestHandler = async event => {
   }
 
   // check if there're any existing records for this username
-  const prisma = new PrismaClient()
   const user = await prisma.user.findFirst({
     where: {
       username: username.toLowerCase(),
@@ -59,15 +58,12 @@ export const GET: RequestHandler = async event => {
       data: {
         uid: generatedUserId,
         username: username.toLowerCase(),
-        lastCalledAddress: event.clientAddress,
+        lastCalledAddress: event.getClientAddress(),
       },
     })
   }
 
   const challenge = await createAuthenticatorChallenge(prisma, generatedUserId)
-
-  // terminate connection
-  await prisma.$disconnect()
 
   // build payload
   const payload: AuthenticatorChallenge = {
@@ -86,8 +82,6 @@ export const GET: RequestHandler = async event => {
 export const POST: RequestHandler = async event => {
   const request: RegisterRequest = await event.request.json()
 
-  const prisma = new PrismaClient()
-
   try {
     const completedChallenge = await completeAuthenticatorChallenge(
       prisma,
@@ -102,10 +96,9 @@ export const POST: RequestHandler = async event => {
       },
       data: {
         registered: true,
-        lastCalledAddress: event.clientAddress,
+        lastCalledAddress: event.getClientAddress(),
       },
     })
-    await prisma.$disconnect()
 
     // issue user token
     const authenticatedToken = await setSession({

@@ -1,8 +1,8 @@
 import { json as json$1 } from '@sveltejs/kit'
 import crypto from 'crypto'
 import cookie from 'cookie'
-import { PrismaClient } from '@prisma/client'
 
+import { prisma } from '../../../context/prisma'
 import { decodeBase64 } from '../../../core/services/decodeBase64'
 import { encodeBase64 } from '../../../core/services/encodeBase64'
 import { setSession } from '../../../core/services/session/set'
@@ -22,7 +22,6 @@ export const GET: RequestHandler = async event => {
   const username = event.url.searchParams.get('username') ?? ''
 
   // locate all authenticators for this user
-  const prisma = new PrismaClient()
   const authenticators = await prisma.authenticator.findMany({
     where: {
       user: {
@@ -41,7 +40,6 @@ export const GET: RequestHandler = async event => {
 
   // if array is 0, means there's no user registered yet
   if (authenticators.length === 0) {
-    await prisma.$disconnect()
     return json$1(
       {
         message: 'this username has not been registered yet',
@@ -69,8 +67,6 @@ export const GET: RequestHandler = async event => {
       challenge: generatedChallenge,
     },
   })
-
-  await prisma.$disconnect()
 
   // build payload
   const payload: LoginResponse = {
@@ -105,8 +101,6 @@ export const POST: RequestHandler = async event => {
   )
 
   // find challenge pair
-  const prisma = new PrismaClient()
-
   const authenticatorPromise = await prisma.authenticator.findFirst({
     where: {
       credentialId: encodeBase64(Buffer.from(id, 'base64url')),
@@ -140,8 +134,6 @@ export const POST: RequestHandler = async event => {
     authenticatorPromise,
     challengePromise,
   ])
-
-  await prisma.$disconnect()
 
   if (challenge === null) {
     return json$1(

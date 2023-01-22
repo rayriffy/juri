@@ -1,7 +1,7 @@
 import { json as json$1 } from '@sveltejs/kit'
-import { PrismaClient } from '@prisma/client'
 import cookie from 'cookie'
 
+import { prisma } from '../../../../context/prisma'
 import { encodeBase64 } from '../../../../core/services/encodeBase64'
 import { authenticateUserSession } from '../../../../core/services/authenticateUserSession'
 import { createAuthenticatorChallenge } from '../../../../modules/register/services/createAuthenticatorChallenge'
@@ -14,8 +14,6 @@ import type { RegisterRequest } from '../../../../core/@types/api/RegisterReques
 import type { AuthenticatorChallenge } from '../../../../core/@types/AuthenticatorChallenge'
 
 export const GET: RequestHandler = async event => {
-  const prisma = new PrismaClient()
-
   try {
     const authenticationCookie = cookie.parse(
       event.request.headers.get('cookie') || ''
@@ -23,7 +21,6 @@ export const GET: RequestHandler = async event => {
     const session = await authenticateUserSession(authenticationCookie)
 
     const challenge = await createAuthenticatorChallenge(prisma, session.id)
-    await prisma.$disconnect()
 
     // build payload
     const payload: AuthenticatorChallenge = {
@@ -37,7 +34,6 @@ export const GET: RequestHandler = async event => {
       data: payload as any,
     })
   } catch (e) {
-    await prisma.$disconnect()
     return json$1(
       {
         message: 'unauthorized',
@@ -52,15 +48,12 @@ export const GET: RequestHandler = async event => {
 export const POST: RequestHandler = async event => {
   const request: RegisterRequest = await event.request.json()
 
-  const prisma = new PrismaClient()
-
   try {
     await completeAuthenticatorChallenge(
       prisma,
       request.response.clientDataJSON,
       request.response.attestationObject
     )
-    await prisma.$disconnect()
 
     return json$1({
       message: 'created',

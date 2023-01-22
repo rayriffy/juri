@@ -1,7 +1,8 @@
 import { json } from '@sveltejs/kit'
-import { PrismaClient } from '@prisma/client'
+
 import cookie from 'cookie'
 
+import { prisma } from '../../../../context/prisma'
 import { authenticateUserSession } from '../../../../core/services/authenticateUserSession'
 import { sessionCookieName } from '../../../../core/constants/sessionCookieName'
 
@@ -15,7 +16,6 @@ export const GET: RequestHandler = async event => {
     )[sessionCookieName]
     const session = await authenticateUserSession(authenticationCookie)
 
-    const prisma = new PrismaClient()
     const authenticators = await prisma.authenticator.findMany({
       where: {
         uid: session.id,
