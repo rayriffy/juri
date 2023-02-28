@@ -12,6 +12,7 @@ import { verifySignature } from '../../../modules/login/services/verifySignature
 import { ASN1toPEM } from '../../../modules/login/services/ASN1toPEM'
 import { sessionCookieName } from '../../../core/constants/sessionCookieName'
 import { maxSessionAge } from '../../../core/constants/maxSessionAge'
+import { getClientAddress } from '../../../core/services/getClientAddress'
 
 import type { RequestHandler } from '@sveltejs/kit'
 import type { LoginResponse } from '../../../core/@types/api/LoginResponse'
@@ -61,10 +62,12 @@ export const GET: RequestHandler = async event => {
     update: {
       challenge: generatedChallenge,
       createdAt: new Date(),
+      lastCalledAddress: getClientAddress(event),
     },
     create: {
       uid: authenticators[0].user.uid,
       challenge: generatedChallenge,
+      lastCalledAddress: getClientAddress(event),
     },
   })
 
@@ -194,6 +197,15 @@ export const POST: RequestHandler = async event => {
       }
     )
   }
+
+  await prisma.user.update({
+    where: {
+      uid: authenticator.user.uid,
+    },
+    data: {
+      lastCalledAddress: getClientAddress(event)
+    },
+  })
 
   // issue user token
   const authenticatedToken = await setSession({
