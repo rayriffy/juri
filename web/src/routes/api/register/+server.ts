@@ -10,6 +10,7 @@ import { maxSessionAge } from '../../../core/constants/maxSessionAge'
 import { completeAuthenticatorChallenge } from '../../../modules/register/services/completeAuthenticatorChallenge'
 import { createAuthenticatorChallenge } from '../../../modules/register/services/createAuthenticatorChallenge'
 import { relyingParty } from '../../../core/constants/relyingParty'
+import { getClientAddress } from '../../../core/services/getClientAddress'
 
 import type { RequestHandler } from '@sveltejs/kit'
 import type { RegisterRequest } from '../../../core/@types/api/RegisterRequest'
@@ -58,7 +59,7 @@ export const GET: RequestHandler = async event => {
       data: {
         uid: generatedUserId,
         username: username.toLowerCase(),
-        lastCalledAddress: event.getClientAddress(),
+        lastCalledAddress: getClientAddress(event),
       },
     })
   }
@@ -96,7 +97,7 @@ export const POST: RequestHandler = async event => {
       },
       data: {
         registered: true,
-        lastCalledAddress: event.getClientAddress(),
+        lastCalledAddress: getClientAddress(event),
       },
     })
 
