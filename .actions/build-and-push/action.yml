@@ -29,9 +29,9 @@ runs:
 
     - uses: deploys-app/deploys-action@v1
       with:
-        project: juri-passkeys
+        project: rayriffy
         location: gke.cluster-rcf2
-        name: runtime
+        name: juri
         image: ${{ inputs.target_image }}
         minReplicas: 1
         maxReplicas: 2
