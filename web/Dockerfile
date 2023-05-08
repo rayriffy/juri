@@ -2,6 +2,9 @@ FROM node:18-slim as deps-prod
 
 WORKDIR /app
 
+RUN mkdir -p /opt && \
+    cp -a --parents /lib/*/libz.* /opt
+
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 COPY prisma ./prisma
 RUN npx pnpm -r i --frozen-lockfile --prod && npx pnpm prisma:generate
@@ -31,6 +34,8 @@ EXPOSE 3000
 
 ENV NODE_ENV production
 ENV PORT 3000
+
+COPY --from=deps-prod /opt /
 
 COPY package.json pnpm-lock.yaml ./
 COPY --from=deps-prod /app/node_modules ./node_modules
